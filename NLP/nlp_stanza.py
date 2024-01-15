@@ -44,7 +44,9 @@ class NLP_STANZA(NLPBase):
         for sentence in doc.sentences:
             for entity in sentence.ents:
                 if entity.text not in entity_sentiments:
-                    entity_sentiments[entity.text] = sentence.sentiment
+                    entity_sentiments[entity.text] = [sentence.sentiment]
+                else:
+                    entity_sentiments[entity.text].append(sentence.sentiment)
         return entity_sentiments
 
     def extract_place(self, doc):
