@@ -7,11 +7,35 @@ Our goal is to develop a prototype that uses AI to identify specific quality ind
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 
-## Instalation
-
-[WIP]
+## Installation
+1. Clone the Repository
+2. Navigate to the Project Directory
+3. Create a Virtual Environment (Optional but Recommended):
+```bash
+python -m venv venv
+```
+Create a virtual environment named venv. To activate the virtual environment:
+* On Windows:
+```bash
+.\venv\Scripts\activate
+```
+* On macOS and Linux:
+```bash
+source venv/bin/activate
+```
+4. Install Dependencies:
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
+
+Execute the main script to run the project.
+```bash
+python main.py
+```
+
+Alternatively, you can try it in a Live Python Terminal, as follows:
 
 ```bash
 from NLP.nlp_stanza import NLP_STANZA
@@ -34,5 +58,6 @@ entity_sentiments = nlp.extract_entity_sentiments(doc)
     |-- nlp_spacy.py
     |-- nlp_stanza.py
 |-- main.py
+|-- requirements.txt
 |-- README.md
 ```
