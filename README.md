@@ -27,6 +27,14 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+5. Download SpaCy Language Model (for Spanish):
+If you plan to use the project with Spanish language processing, you need to download the SpaCy language model. Run the following command:
+```bash
+python -m spacy download es_core_news_sm
+```
+
+
+
 
 ## Usage
 
