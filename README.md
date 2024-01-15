@@ -14,12 +14,16 @@ Our goal is to develop a prototype that uses AI to identify specific quality ind
 ## Usage
 
 ```bash
-from nlp_class import NLP
+from NLP.nlp_stanza import NLP_STANZA
 
-mi_texto = "..."
-from NLP.nlp_base import NLP
-nlp = NLP('es')
+nlp = NLP_STANZA('es')
 doc = nlp.analyze("El presidente de la Cámara de Propietarios de la República Argentina aseguró...")
+entities = nlp.extract_entities(doc)
+entities_count = nlp.count_entities(doc)
+adjectives = nlp.extract_adjectives(doc)
+adjective_count = nlp.count_adjectives(doc)
+entity_type_counts = nlp.count_entity_types(doc)
+entity_sentiments = nlp.extract_entity_sentiments(doc)
 ```
 
 ## Project Structure

@@ -29,23 +29,30 @@ En cuanto a la moneda acordada para el pago del alquiler, el vicepresidente de C
 
 En este sentido, trajo a colación un reciente caso ocurrido en Rosario, Santa Fe, donde tanto propietario como inquilino acordaron que el pago se realice en bitcoins."""}
 
-from NLP.nlp_base import NLP
+from NLP.nlp_stanza import NLP_STANZA
 
-nlp = NLP('es')
+nlp = NLP_STANZA('es')
 doc = nlp.analyze(article['body'])
-entities = nlp.extract_entities_v2(doc)
-#entity_classification = nlp.classify_entities(doc)
+entities = nlp.extract_entities(doc)
+entities_count = nlp.count_entities(doc)
 adjectives = nlp.extract_adjectives(doc)
-adjective_count = nlp.count_adjectives(adjectives)
-#entity_sentiments = nlp.extract_entity_sentiments(doc)
-#place = nlp.extract_place(doc)
-#date = nlp.extract_date(doc)
-#sources = nlp.extract_sources(doc)
-#links = nlp.extract_links(doc)
+adjective_count = nlp.count_adjectives(doc)
+# entities_V2 = nlp.extract_entities_v2(doc)  # TODO: qué es esto?
+entity_type_counts = nlp.count_entity_types(doc)
+entity_sentiments = nlp.extract_entity_sentiments(doc)  # TODO: ver bien cómo es el output
+# place = nlp.extract_place(doc)
+date = nlp.extract_date(doc)  # TODO: está bien hecho?
+sources = nlp.extract_sources(doc)  # TODO: está bien hecho?
+links = nlp.extract_links(doc)  # TODO: está bien hecho?
 
-print(entities)
-#print(entity_classification)
-#print(adjectives)
-print(adjective_count)
-#print(entity_sentiments)
-#print(doc.sentences[0].tokens[0])
+print(f'entities: {entities}')
+print(f'entities_count: {entities_count}')
+print(f'adjectives: {adjectives}')
+print(f'adjective_count: {adjective_count}')
+# print(f'entities_V2: {entities_V2}')
+print(f'entity_type_counts: {entity_type_counts}')
+print(f'entity_sentiments: {entity_sentiments}')
+# print(f'place: {place}')
+print(f'date: {date}')
+print(f'sources: {sources}')
+print(f'links: {links}')
