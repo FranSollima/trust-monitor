@@ -46,9 +46,9 @@ python main.py
 Alternatively, you can try it in a Live Python Terminal, as follows:
 
 ```bash
-from NLP.nlp_stanza import NLP_STANZA
+from NLP.nlp import NLP
 
-nlp = NLP_STANZA('es')
+nlp = NLP('es', 'spacy')
 doc = nlp.analyze("El presidente de la Cámara de Propietarios de la República Argentina aseguró...")
 entities = nlp.extract_entities(doc)
 entities_count = nlp.count_entities(doc)
