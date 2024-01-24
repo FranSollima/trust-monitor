@@ -1,7 +1,7 @@
 from NLP.nlp import NLP
 from article_example import article
 
-nlp = NLP('es', 'stanza')
+nlp = NLP('es', 'spacy')
 doc = nlp.analyze(article['body'])
 entities = nlp.extract_entities(doc)
 entities_count = nlp.count_entities(doc)
