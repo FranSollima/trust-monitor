@@ -13,12 +13,26 @@
         "titulo": "Alquileres: la oferta porteña creció un 25% en pocos días y aparecieron departamentos en barrios donde no había opciones", 
         "resumen": "Luego del DNU que derogó la polémica ley se observó un rápido crecimiento de las propuestas inmobiliarias en diversos portales",
         "medio": "infobae",
-        "manual_ners": {
-            "ORG": ["Maure Inmobiliaria", "Zonaprop", "Argenprop", "Liotto Propiedades", "Montiel y Ercilla", "barrio Naón", "Pedro Morán al 2300", "Alberti al 1800"],
-            "LOC": ["ciudad de Buenos Aires", "Agronomía", "Mataderos", "Parque Patricios"],
-            "PER": ["Javier Milei", "Soledad Balayan", "Balayan", "Armando Pepe", "Pepe", "Marta Liotto", "Liotto"],
-            "MISC": ["DNU", "Ley de Alquileres", "Índice de Precios al Consumidor", "IPC", "Índice de Contratos de Locación", "Código Civil y Comercial", "Precios al Consumidor", "artículo 1199"]
-        }
+        "manual_annotations":
+            {
+
+                "ners_type": {
+                    "ORG": ["Maure Inmobiliaria", "Zonaprop", "Argenprop", "Liotto Propiedades", "Montiel y Ercilla", "barrio Naón", "Pedro Morán al 2300", "Alberti al 1800"],
+                    "LOC": ["ciudad de Buenos Aires", "Agronomía", "Mataderos", "Parque Patricios"],
+                    "PER": ["Javier Milei", "Soledad Balayan", "Balayan", "Armando Pepe", "Pepe", "Marta Liotto", "Liotto"],
+                    "MISC": ["DNU", "Ley de Alquileres", "Índice de Precios al Consumidor", "IPC", "Índice de Contratos de Locación", "Código Civil y Comercial", "Precios al Consumidor", "artículo 1199"]
+                },
+
+                "ners_sentiment": {
+
+                    "neutral":[],
+                    "positive":[],
+                    "negative":[]
+
+                },
+
+                "adjetivation":[]
+            }
     },
     {
         "hora": "", 
@@ -34,13 +48,27 @@
         "titulo": "El infierno de alquilar en la era Milei: cómo son los contratos y qué exigen inmobiliarias y propietarios", 
         "resumen": "Se firman contratos por plazos insólitos con aumentos mensuales, bimestrales o semestrales según la inflación. Las inmobiliarias aseguran que subió la oferta, pero los valores son disparatados. Qué precios se manejan en el mercado y cuánto cuesta un dos ambientes en CABA.",
         "medio": "pagina12",
-        "manual_ners": {
-            "ORG": ["Federación de Inquilinos Nacional", "Gobierno", "ZonaProp", "Página|12"],
-            "LOC": ["CABA", "Almagro", "Caballito", "Villa Crespo", "Argentina"],
-            "PER": ["Javier Milei", "Presidente", "Milei", "Enrique Lavié Pico", "Juan Arrizabalaga", "Arrizabalaga", "Julián", "Armando Pepe"],
-            "MISC": ["ley de Alquileres", "DNU", "Encuesta Permanente de Hogares"]
+        "manual_annotations": {
+
+            "ners_type": {
+                "ORG": ["Federación de Inquilinos Nacional", "Gobierno", "ZonaProp", "Página|12"],
+                "LOC": ["CABA", "Almagro", "Caballito", "Villa Crespo", "Argentina"],
+                "PER": ["Javier Milei", "Presidente", "Milei", "Enrique Lavié Pico", "Juan Arrizabalaga", "Arrizabalaga", "Julián", "Armando Pepe"],
+                "MISC": ["ley de Alquileres", "DNU", "Encuesta Permanente de Hogares"]
+            },
+
+            "ners_sentiment": {
+
+                "neutral":[],
+                "positive":[],
+                "negative":[]
+
+            },
+
+            "adjetivation":[]
         }
     },
+    
     {
         "hora": "", 
         "link_noticia": "https://www.clarin.com/economia/alquileres-aumenta-oferta-registran-bajas-20-precios-derogacion-ley_0_ukquOzGAtf.html", 
@@ -55,11 +83,24 @@
         "titulo": "Alquileres: aumenta la oferta y registran bajas del 20% en los precios tras la derogación de la ley", 
         "resumen": "Para el titular de la Cámara de Propietarios, Enrique Abatti, actualmente se encuentran \"7.000 propiedades en oferta\", mientras semanas atrás era \"cero\".",
         "medio": "clarin",
-        "manual_ners": {
-            "ORG": ["Cámara de Propietarios", "Cámara de Propietarios de la República Argentina", "Capra", "Clarín", "radio Rivadavia", "Cámara Inmobiliaria Argentina", "CIA", "LN+", "Maure Inmobiliaria"],
-            "LOC": ["Ciudad de Buenos Aires", "Capital Federal", "Rosario", "Santa Fe"],
-            "PER": ["Enrique Abatti", "Abatti", "Daniel Zampone", "Zampone", "Soledad Balayan"],
-            "MISC": ["Ley de Alquileres", "Decreto 70/2023", "Ley 27.551", "ley (Nº 27.737)", "27.551", "artículo 765", "Código Civil y Comercial"]
+        "manual_annotations": {
+
+            "ners_type": {
+                "ORG": ["Cámara de Propietarios", "Cámara de Propietarios de la República Argentina", "Capra", "Clarín", "radio Rivadavia", "Cámara Inmobiliaria Argentina", "CIA", "LN+", "Maure Inmobiliaria"],
+                "LOC": ["Ciudad de Buenos Aires", "Capital Federal", "Rosario", "Santa Fe"],
+                "PER": ["Enrique Abatti", "Abatti", "Daniel Zampone", "Zampone", "Soledad Balayan"],
+                "MISC": ["Ley de Alquileres", "Decreto 70/2023", "Ley 27.551", "ley (Nº 27.737)", "27.551", "artículo 765", "Código Civil y Comercial"]
+            },
+
+            "ners_sentiment": {
+
+                "neutral":[],
+                "positive":[],
+                "negative":[]
+
+            },
+
+            "adjetivation":[]
         }
     },
     {
@@ -76,11 +117,24 @@
         "titulo": "Cuasimonedas para cubrir derroches", 
         "resumen": "En vez de recortar decididamente el gasto, encarando una urgente reforma, el gobernador Quintela echa mano de fracasadas recetas del pasado",
         "medio": "lanacion",
-        "manual_ners": {
-            "ORG": ["Legislatura", "Estado nacional", "Corte"],
-            "LOC": ["La Rioja", "Argentina", "provincia de Buenos Aires", "Ciudad Autónoma de Buenos Aires", "ciudad de Buenos Aires", "Famatina", "Formosa", "Santiago del Estero", "Cordillera de los Andes", "San Juan", "Catamarca", "Mendoza", "Buenos Aires"],
-            "PER": ["Milei", "Ricardo Quintela", "Lali Espósito", "Quintela", "Sergio Massa", "Joaquín V. González"],
-            "MISC": []
+        "manual_annotations": {
+
+            "ners_type": {
+                "ORG": ["Legislatura", "Estado nacional", "Corte"],
+                "LOC": ["La Rioja", "Argentina", "provincia de Buenos Aires", "Ciudad Autónoma de Buenos Aires", "ciudad de Buenos Aires", "Famatina", "Formosa", "Santiago del Estero", "Cordillera de los Andes", "San Juan", "Catamarca", "Mendoza", "Buenos Aires"],
+                "PER": ["Milei", "Ricardo Quintela", "Lali Espósito", "Quintela", "Sergio Massa", "Joaquín V. González"],
+                "MISC": []
+            },
+
+            "ners_sentiment": {
+
+                "neutral":[],
+                "positive":[],
+                "negative":[]
+
+            },
+
+            "adjetivation":[]
         }
     },
     {
@@ -97,11 +151,24 @@
         "titulo": "X incorporará los pagos en 2024 e implementará la IA para la experiencia de usuarios y anunciantes", 
         "resumen": "Además, la compañía pretende ampliar las capacidades de verificación de seguridad de marca e implicar en la plataforma a “algunas de las personas más interesantes y comprometidas de X”",
         "medio": "lanacion",
-        "manual_ners": {
-            "ORG": ["X", "Twitter", "Xcorp"],
-            "LOC": [],
-            "PER": ["Elon Musk"],
-            "MISC": ["Gork"]
+        "manual_annotations": {
+
+            "ners_type": {
+                "ORG": ["X", "Twitter", "Xcorp"],
+                "LOC": [],
+                "PER": ["Elon Musk"],
+                "MISC": ["Gork"]
+            },
+
+            "ners_sentiment": {
+
+                "neutral":[],
+                "positive":[],
+                "negative":[]
+
+            },
+
+            "adjetivation":[]
         }
     }
 ]
