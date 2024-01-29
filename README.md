@@ -3,9 +3,11 @@ Our goal is to develop a prototype that uses AI to identify specific quality ind
 
 ## Index
 
-- [Installation](#instalation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
+- [trust-monitor](#trust-monitor)
+  - [Index](#index)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Project Structure](#project-structure)
 
 ## Installation
 1. Clone the Repository
@@ -23,9 +25,9 @@ Create a virtual environment named venv. To activate the virtual environment:
 ```bash
 source venv/bin/activate
 ```
-4. Install Dependencies:
+4. Install Project and Dependencies (inside the project directory):
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 5. Download SpaCy Language Model (for Spanish):
 If you plan to use the project with Spanish language processing, you need to download the SpaCy language model. Run the following command:
@@ -61,11 +63,16 @@ entity_sentiments = nlp.extract_entity_sentiments(doc)
 ## Project Structure
 
 ```bash
-/NLP
-    |-- nlp_base.py
-    |-- nlp_spacy.py
-    |-- nlp_stanza.py
+/trustmonitor
+    |-- nlp.py
+    |-- import_utils.py
+    |-- articles.py
+/data
+    |-- docs
+    |-- manual
+    |-- raw
 |-- main.py
 |-- requirements.txt
+|-- setup.py
 |-- README.md
 ```

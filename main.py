@@ -1,4 +1,4 @@
-from NLP.nlp import NLP
+from trustmonitor.nlp import NLP
 from article_example import article
 
 nlp = NLP('es', 'spacy')
