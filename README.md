@@ -48,7 +48,7 @@ python main.py
 Alternatively, you can try it in a Live Python Terminal, as follows:
 
 ```bash
-from NLP.nlp import NLP
+from trustmonitor.nlp import NLP
 
 nlp = NLP('es', 'spacy')
 doc = nlp.analyze("El presidente de la Cámara de Propietarios de la República Argentina aseguró...")
