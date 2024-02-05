@@ -32,6 +32,12 @@ class NLP:
         elif self.libreria == 'stanza':
             return self._extract_entities_v2_stanza(doc)
 
+    def extract_tokens(self, doc):
+        if self.libreria == 'spacy':
+            return self._extract_tokens_spacy(doc)
+        elif self.libreria == 'stanza':
+            return self._extract_tokens_stanza(doc)
+
     def extract_adjectives(self, doc):
         if self.libreria == 'spacy':
             return self._extract_adjectives_spacy(doc)
@@ -82,9 +88,16 @@ class NLP:
         return entities
 
     def _extract_entities_v2_spacy(self, doc):
-        # Para cada entidad devolver el texto y el tipo y la posicion
-        # Ver equivalencia de tipos entre spacy y stanza
-        raise NotImplementedError("_extract_entities_v2_spacy not implemented")
+        entities_v2 = []
+        for entity in doc.ents:
+            entities_v2.append({'text': entity.text, 'type': entity.label_, 'start_char': entity.start_char, 'end_char': entity.end_char})
+        return entities_v2
+
+    def _extract_tokens_spacy(self, doc):
+        tokens = []
+        for token in doc:
+            tokens.append({'text': token.text, 'ner': token.ent_type_, 'start_char': token.idx, 'end_char': token.idx + len(token.text)})
+        return tokens
 
     def _extract_adjectives_spacy(self, doc):
         adjectives = []
@@ -127,9 +140,19 @@ class NLP:
         return entities
 
     def _extract_entities_v2_stanza(self, doc):
-        # Para cada entidad devolver el texto y el tipo y la posicion
-        # Ver equivalencia de tipos entre spacy y stanza
-        print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc.sentences for token in sent.tokens], sep='\n')
+        entities_v2 = []
+        for sentence in doc.sentences:
+            for entity in sentence.ents:
+                entities_v2.append({'text': entity.text, 'type': entity.type, 'start_char': entity.start_char, 'end_char': entity.end_char})
+        return entities_v2
+        # print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc.sentences for token in sent.tokens], sep='\n')
+
+    def _extract_tokens_stanza(self, doc):
+        tokens = []
+        for sentence in doc.sentences:
+            for token in sentence.tokens:
+                tokens.append({'text': token.text, 'ner': token.ner, 'start_char': token.start_char, 'end_char': token.end_char})
+        return tokens
 
     def _extract_adjectives_stanza(self, doc):
         adjectives = []
