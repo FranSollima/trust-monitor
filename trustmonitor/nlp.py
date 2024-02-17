@@ -1,4 +1,5 @@
 # nlp_base.py
+import re
 import spacy
 import stanza
 
@@ -56,8 +57,9 @@ class NLP:
         elif self.libreria == 'stanza':
             return self._extract_entity_sentiments_stanza(doc)
 
-    def extract_place(self, doc):
-        raise NotImplementedError("extract_place not implemented")
+    def extract_places(self, doc):
+        entities = self.extract_entities_v2(doc)
+        return [entity for entity in entities if entity['type'] == 'Lugar']
 
     def extract_date(self, doc):
         raise NotImplementedError("extract_date not implemented")
@@ -66,13 +68,42 @@ class NLP:
         raise NotImplementedError("extract_sources not implemented")
 
     def extract_links(self, doc):
-        raise NotImplementedError("extract_links not implemented")
+        # Usamos re para encontrar links en el texto (aunque no tengan http, pueden comenzar con www.)
+        # Tiene que ignorar caracteres especiales al final de la url
+        regex_results = re.findall(r'(https?://\S+|www\.\S+)', doc.text)
+        links = []
+        for link in regex_results:
+            link = link.rstrip('.,;!?()')
+            links.append(link)
+        return links
 
     def count_adjectives(self, doc):
         return len(self.extract_adjectives(doc))
 
     def count_entities(self, doc):
         return len(self.extract_entities(doc))
+
+    def _translate_entity_type(self, entity_type):
+        entities_translation = {
+            'stanza':
+                {
+                    'PER': 'Persona',
+                    'ORG': 'Organización',
+                    'LOC': 'Lugar',
+                    'MISC': 'Misceláneo'
+                },
+            'spacy':
+                {
+                    'PER': 'Persona',
+                    'ORG': 'Organización',
+                    'LOC': 'Lugar',
+                    'MISC': 'Misceláneo'
+                }
+            }
+        if entity_type not in entities_translation[self.libreria]:
+            print(f'Entity type no reconocido: {entity_type}')
+            return 'Otro'
+        return entities_translation[self.libreria][entity_type]
 
     ### SPACY ###
     def _init_spacy(self):
@@ -90,7 +121,13 @@ class NLP:
     def _extract_entities_v2_spacy(self, doc):
         entities_v2 = []
         for entity in doc.ents:
-            entities_v2.append({'text': entity.text, 'type': entity.label_, 'start_char': entity.start_char, 'end_char': entity.end_char})
+            entities_v2.append({
+                'text': entity.text,
+                'type': self._translate_entity_type(entity.label_),
+                'sentiment': None, # No implementado en spacy
+                'start_char': entity.start_char,
+                'end_char': entity.end_char
+            })
         return entities_v2
 
     def _extract_tokens_spacy(self, doc):
@@ -109,10 +146,11 @@ class NLP:
     def _count_entity_types_spacy(self, doc):
         entity_classification = {}
         for entity in doc.ents:
-            if entity.label_ not in entity_classification:
-                entity_classification[entity.label_] = 1
+            entity_type = self._translate_entity_type(entity.label_)
+            if entity_type not in entity_classification:
+                entity_classification[entity_type] = 1
             else:
-                entity_classification[entity.label_] += 1
+                entity_classification[entity_type] += 1
         return entity_classification
 
     def _extract_entity_sentiments_spacy(self, doc):
@@ -143,9 +181,14 @@ class NLP:
         entities_v2 = []
         for sentence in doc.sentences:
             for entity in sentence.ents:
-                entities_v2.append({'text': entity.text, 'type': entity.type, 'start_char': entity.start_char, 'end_char': entity.end_char})
+                entities_v2.append({
+                    'text': entity.text,
+                    'type': self._translate_entity_type(entity.type),
+                    'sentiment': sentence.sentiment,
+                    'start_char': entity.start_char,
+                    'end_char': entity.end_char
+                })
         return entities_v2
-        # print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc.sentences for token in sent.tokens], sep='\n')
 
     def _extract_tokens_stanza(self, doc):
         tokens = []
@@ -160,6 +203,8 @@ class NLP:
             for word in sentence.words:
                 # print(word,word.upos)
                 if word.upos == 'ADJ':
+                    # print(word.text)
+                    # print(word.feats)
                     adjectives.append(word.text)
         return adjectives
 
@@ -167,10 +212,11 @@ class NLP:
         entity_classification = {}
         for sentence in doc.sentences:
             for entity in sentence.ents:
-                if entity.type not in entity_classification:
-                    entity_classification[entity.type] = 1
+                entity_type = self._translate_entity_type(entity.type)
+                if entity_type not in entity_classification:
+                    entity_classification[entity_type] = 1
                 else:
-                    entity_classification[entity.type] += 1
+                    entity_classification[entity_type] += 1
         return entity_classification
 
     def _extract_entity_sentiments_stanza(self, doc):
