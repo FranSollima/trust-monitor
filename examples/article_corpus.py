@@ -50,3 +50,5 @@ print(fil_c)
 
 print("\n Corpus Filtrado \n")
 print(corpus.filter_by_catalog(fil_c))
+
+corpus.get_article(0).plot_entities_cuerpo()
