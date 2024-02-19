@@ -1,5 +1,6 @@
 import pandas as pd
 from tqdm import tqdm
+from spacy import displacy
 
 class Article():
     
@@ -31,9 +32,28 @@ class Article():
     
     def analyze_cuerpo(self, nlp_processor):
         self.doc_cuerpo = nlp_processor.analyze(self.cuerpo)
-        self.entities_cuerpo = dict(entities_list = nlp_processor.extract_entities(self.doc_cuerpo),
-                                    entities_count = nlp_processor.count_entities(self.doc_cuerpo),
-                                    entity_type_counts = nlp_processor.count_entity_types(self.doc_cuerpo))
+        self.entities_cuerpo = nlp_processor.extract_entities_v2(self.doc_cuerpo)
+        # self.entities_cuerpo = dict(entities_list = nlp_processor.extract_entities(self.doc_cuerpo),
+        #                             entities_count = nlp_processor.count_entities(self.doc_cuerpo),
+        #                             entity_type_counts = nlp_processor.count_entity_types(self.doc_cuerpo))
+    
+    def plot_entities_cuerpo(self):
+        
+        # Revisar que exista el atributo entities_cuerpo
+        if not hasattr(self, 'entities_cuerpo'):
+            raise ValueError("Analizar el cuerpo del artículo antes de graficar entidades")
+        
+        plot_data = { 
+                     "text":self.cuerpo,
+                     "ents": [{'start':e['start_char'], 'end':e['end_char'], 'label':e['type']} for e in self.entities_cuerpo],
+                     "title": None
+                     }
+
+        displacy.render(plot_data, style="ent", manual=True, page=True)
+    
+        
+    def get_all_indicators(self):
+        raise NotImplementedError("Librería no implementada")
     
     
     
@@ -97,6 +117,9 @@ class ArticlesCorpus():
     
     def get_catalog(self):
         return self.catalog.copy()
+    
+    def get_article(self, index):
+        return self.articles[index]
     
     def filter_by_catalog(self, filtered_catalog):
         index_list = filtered_catalog.index.tolist()
