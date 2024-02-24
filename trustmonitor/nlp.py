@@ -2,18 +2,22 @@
 import re
 import spacy
 import stanza
+from tqdm import tqdm
+from pysentimiento import create_analyzer  # Import pysentimiento
 
 class NLP:
     ### GENERALES ###
     def __init__(self, language, libreria):
         self.language = language
         self.libreria = libreria
-        if self.libreria not in ('spacy', 'stanza'):
+        if self.libreria not in ('spacy', 'stanza','pysentimiento'):
             raise NotImplementedError("Librería no implementada")
         if self.libreria == 'spacy':
             self._init_spacy()
         elif self.libreria == 'stanza':
             self._init_stanza()
+        elif self.libreria == 'pysentimiento':
+            self._init_pysentimiento()
 
     def analyze(self, text):
         if self.libreria == 'spacy':
@@ -228,3 +232,16 @@ class NLP:
                 else:
                     entity_sentiments[entity.text].append(sentence.sentiment)
         return entity_sentiments
+
+    ## pysentimiento
+    def _init_pysentimiento(self):
+        self.pysentimiento = create_analyzer(task="sentiment", lang="es")
+
+    def _extract_corpus_sentiment(self, corpus):
+        for article in tqdm(corpus.articles.values()):
+            analysis_result = self.pysentimiento.predict(article.cuerpo)
+            article.sent = {
+                    'label': analysis_result.output,
+                    'scores': analysis_result.probas
+                }
+    
