@@ -55,6 +55,26 @@ class NLP:
         elif self.libreria == 'stanza':
             return self._count_entity_types_stanza(doc)
 
+    def count_adjective_types(self, doc, feature_type='Degree'):
+        """
+        Posibles feature_type:
+            - Degree
+            - Gender
+            - Number
+            - NumType
+        """
+        adjective_classification = {'uncategorized': 0}
+        adjectives = self.extract_adjectives(doc)
+        for adjective in adjectives:
+            if feature_type not in adjective['features']:
+                adjective_classification['uncategorized'] += 1
+                continue
+            adj_category = adjective['features'][feature_type]
+            if adj_category not in adjective_classification:
+                adjective_classification[adj_category] = 0
+            adjective_classification[adj_category] += 1
+        return adjective_classification
+
     def extract_entity_sentiments(self, doc):
         if self.libreria == 'spacy':
             return self._extract_entity_sentiments_spacy(doc)
@@ -144,7 +164,14 @@ class NLP:
         adjectives = []
         for token in doc:
             if token.pos_ == 'ADJ':
-                adjectives.append(token.text)
+                adejctive_text = token.text
+                adjective_features = {}
+                if token.morph.to_dict() is not None:
+                    adjective_features = token.morph.to_dict()
+                adjectives.append({
+                    'text': adejctive_text,
+                    'features': adjective_features
+                })
         return adjectives
 
     def _count_entity_types_spacy(self, doc):
@@ -205,11 +232,18 @@ class NLP:
         adjectives = []
         for sentence in doc.sentences:
             for word in sentence.words:
-                # print(word,word.upos)
                 if word.upos == 'ADJ':
-                    # print(word.text)
-                    # print(word.feats)
-                    adjectives.append(word.text)
+                    adejctive_text = word.text
+                    adjective_features = {}
+                    if word.feats is not None:
+                        feats = word.feats.split("|")
+                        for feat in feats:
+                            key, value = feat.split("=")
+                            adjective_features[key] = value
+                    adjectives.append({
+                        'text': adejctive_text,
+                        'features': adjective_features
+                    })
         return adjectives
 
     def _count_entity_types_stanza(self, doc):

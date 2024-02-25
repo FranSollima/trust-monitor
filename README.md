@@ -56,6 +56,7 @@ entities = nlp.extract_entities(doc)
 entities_count = nlp.count_entities(doc)
 adjectives = nlp.extract_adjectives(doc)
 adjective_count = nlp.count_adjectives(doc)
+adjective_type_counts = nlp.count_adjective_types(doc)
 entity_type_counts = nlp.count_entity_types(doc)
 entity_sentiments = nlp.extract_entity_sentiments(doc)
 ```

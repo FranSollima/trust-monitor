@@ -7,6 +7,7 @@ entities = nlp.extract_entities(doc)
 entities_count = nlp.count_entities(doc)
 adjectives = nlp.extract_adjectives(doc)
 adjective_count = nlp.count_adjectives(doc)
+adjective_type_counts = nlp.count_adjective_types(doc)
 # entities_V2 = nlp.extract_entities_v2(doc) # TODO: No implementado en spacy | reformular para stanza
 entity_type_counts = nlp.count_entity_types(doc)
 # entity_sentiments = nlp.extract_entity_sentiments(doc) # TODO: No implementado en spacy | igualar el output de ambas librerias
