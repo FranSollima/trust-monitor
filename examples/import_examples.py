@@ -5,7 +5,7 @@ from trustmonitor import import_utils
 # Podemos acceder a la raiz del proyecto con la función get_project_root()
 # Importamos el json de noticias generadas manualmente.
 filepath = os.path.join(import_utils.get_project_root(),"data", "manual", "nuevas_noticias.json")
-news = import_utils.import_news_from_file(filepath)
+news = import_utils.import_news_from_json(filepath)
 
 # Imprimimos algunas características de las noticias.
 print(f'Cantidad de noticias en el archivo: {len(news)}')

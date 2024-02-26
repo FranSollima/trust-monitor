@@ -5,7 +5,7 @@ from pysentimiento import create_analyzer  # Import pysentimiento
 from tqdm import tqdm
 
 ROOT = import_utils.get_project_root()
-noticias = import_utils.import_news_from_file(f'{ROOT}/data/manual/nuevas_noticias.json')
+noticias = import_utils.import_news_from_json(f'{ROOT}/data/manual/nuevas_noticias.json')
 
 corpus = ArticlesCorpus()
 corpus.load_articles([noticias[0]])

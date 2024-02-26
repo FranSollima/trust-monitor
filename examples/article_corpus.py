@@ -6,7 +6,7 @@ ROOT = import_utils.get_project_root()
 
 print("\n------------------EJEMPLO ARTICULO------------------\n")
 # Importamos una lista de noticias.
-news_list = import_utils.import_news_from_file(f"{ROOT}/data/manual/nuevas_noticias.json")
+news_list = import_utils.import_news_from_json(f"{ROOT}/data/manual/nuevas_noticias.json")
 print(f'Cantida de noticias: {len(news_list)}')
 
 # Podemos tomar la primera de las noticias y transformarla en un Articulo.

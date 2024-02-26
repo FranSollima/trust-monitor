@@ -1,6 +1,7 @@
 import pandas as pd
 from tqdm import tqdm
 from spacy import displacy
+import pickle
 
 class Article():
     
@@ -43,13 +44,15 @@ class Article():
         if not hasattr(self, 'entities_cuerpo'):
             raise ValueError("Analizar el cuerpo del artículo antes de graficar entidades")
         
+        options = {'colors':{"Persona":"#fcba03", "Lugar":"#22B8C3", "Misceláneo":"#E421D3", "Organización":"#22BF51"}}
+        
         plot_data = { 
                      "text":self.cuerpo,
                      "ents": [{'start':e['start_char'], 'end':e['end_char'], 'label':e['type']} for e in self.entities_cuerpo],
                      "title": None
                      }
 
-        displacy.render(plot_data, style="ent", manual=True, page=True)
+        displacy.render(plot_data, style="ent", manual=True, page=True, options=options)
     
         
     def get_all_indicators(self):
@@ -69,6 +72,17 @@ class ArticlesCorpus():
     # def __str__(self):
     #     pass
         
+    def __add__(self, corpus):
+        
+        articles_list = [article.get_article_dict() for article in self.articles.values()]
+        new_articles_list = [article.get_article_dict() for article in corpus.articles.values()]
+        articles_list = articles_list + new_articles_list
+   
+        new_corpus = ArticlesCorpus()
+        new_corpus.load_articles(articles_list, mode='list')
+        
+        return new_corpus
+        
     def load_articles(self, news, mode="list"):
         
         if mode == "list":
@@ -81,6 +95,15 @@ class ArticlesCorpus():
             raise ValueError("mode must be 'list' (list of dictionaries) or 'dict' (dictionary of Articles == corpus)")
             
         self._get_articles_catalog()
+            
+    def save_articles(self, filename):
+        'Save article list of dicts in pickle format.'
+                
+        news_dict = [article.get_article_dict() for article in self.articles.values()]
+
+        with open(filename, 'wb') as handle:
+            pickle.dump(news_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
             
     def _load_articles_from_list(self, list_of_news):
         for news in list_of_news:

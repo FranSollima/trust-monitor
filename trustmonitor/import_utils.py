@@ -1,5 +1,6 @@
 import os
 import json
+import pickle
 from pathlib import Path
 
 def get_project_root() -> Path:
@@ -11,7 +12,7 @@ def get_project_root() -> Path:
     """
     return Path(__file__).parent.parent
 
-def import_news_from_file(filepath: str) -> list:
+def import_news_from_json(filepath: str) -> list:
     """
     This function imports news from a json file, creating a list of dictionaries.
 
@@ -23,6 +24,11 @@ def import_news_from_file(filepath: str) -> list:
     """
     with open(filepath, 'r', encoding="utf8") as f:
         news = json.load(f)
+    return news
+
+def import_news_from_pickle(filepath: str) -> list:
+    with open(filepath, 'rb') as handle:
+        news = pickle.load(handle)
     return news
 
 def add_medio_to_news(news: list, medio:str) -> list:
@@ -72,7 +78,7 @@ def import_news_from_folder(data_path: str, medio: str) -> list:
     
     news = []
     for file in os.listdir(files_path):
-        n = import_news_from_file(os.path.join(files_path, file))
+        n = import_news_from_json(os.path.join(files_path, file))
         news += n
     
     news = add_medio_to_news(news, medio)
