@@ -1,7 +1,32 @@
 import pandas as pd
 from tqdm import tqdm
 from spacy import displacy
+from dataclasses import dataclass
 import pickle
+
+
+
+# @dataclass
+# class NLPAnnotations():
+#     doc: dict
+#     entities: dict
+#     entities_sentiment: dict
+#     general_sentiment: dict
+#     adjectives: dict
+#     dates: dict
+
+
+class NLPAnnotations():
+    
+    def __init__(self):
+        self.doc = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.entities = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.entities_sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.general_sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.adjectives = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.dates = dict(stanza=None, spacy=None, pysentimiento=None)
+
+
 
 class Article():
     
@@ -13,17 +38,23 @@ class Article():
         for key in kwargs:
             setattr(self, key, kwargs[key])
             
+        self.nlp_annotations = NLPAnnotations()
+            
     # def __repr__(self):
     #     pass
 
-    # def __str__(self):
-    #     pass
+    def __str__(self) -> str:
+        return f"Artículo: {self.titulo} - {self.medio} - {self.fecha}"
     
-    def get_article_dict(self):
+    def get_article_dict(self) -> dict:
         return self.__dict__.copy()
     
-    def get_article_attrs(self):
+    def get_article_attrs(self) -> list:
         return list(self.__dict__.keys())
+    
+    def check_nlp_annotations(self):
+        # Esta función debería revisar la instancia de nlp_annotations y devolver un print con el listado de anotaciones realizadas.
+        pass
     
     def _check_doc_attr(self):
         return hasattr(self, 'entities')
@@ -69,8 +100,8 @@ class ArticlesCorpus():
     # def __repr__(self):
     #     pass
 
-    # def __str__(self):
-    #     pass
+    def __str__(self) -> str:
+        return f"Corpus de Artículos: {self.n_articles} artículos"
         
     def __add__(self, corpus):
         

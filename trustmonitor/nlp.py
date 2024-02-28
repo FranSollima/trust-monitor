@@ -274,8 +274,8 @@ class NLP:
     def _extract_corpus_sentiment(self, corpus):
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
-            article.sent = {
-                    'label': analysis_result.output,
-                    'scores': analysis_result.probas
-                }
+            article.nlp_annotations.general_sentiment[self.libreria] = {
+                'label': analysis_result.output,
+                'scores': analysis_result.probas
+            }
     
