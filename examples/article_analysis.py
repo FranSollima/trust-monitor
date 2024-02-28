@@ -31,7 +31,7 @@ nlp2._extract_corpus_sentiment(corpus)
 print(corpus)
 
 for article in tqdm(corpus.articles.values()):
-    print(article.sent)
+    print(article.nlp_annotations.general_sentiment['pysentimiento'])
 
 
 
