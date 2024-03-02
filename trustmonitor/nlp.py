@@ -10,6 +10,7 @@ class NLP:
     def __init__(self, language, libreria):
         self.language = language
         self.libreria = libreria
+
         if self.libreria not in ('spacy', 'stanza','pysentimiento'):
             raise NotImplementedError("Librería no implementada")
         if self.libreria == 'spacy':
@@ -132,6 +133,7 @@ class NLP:
     ### SPACY ###
     def _init_spacy(self):
         self.nlp = spacy.load(f'{self.language}_core_news_sm')
+        self.libreria = 'spacy'
 
     def _analyze_spacy(self, text):
         return self.nlp(text)
@@ -197,6 +199,7 @@ class NLP:
     ### STANZA ###
     def _init_stanza(self):
         self.nlp = stanza.Pipeline(self.language, processors='tokenize,ner,sentiment,pos')
+        self.libreria = 'stanza'
 
     def _analyze_stanza(self, text):
         return self.nlp(text)
@@ -274,8 +277,52 @@ class NLP:
     def _extract_corpus_sentiment(self, corpus):
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
-            article.nlp_annotations.general_sentiment[self.libreria] = {
+            article.nlp_annotations.general_sentiment['pysentimiento'] = {
                 'label': analysis_result.output,
                 'scores': analysis_result.probas
             }
-    
+
+    #stanza and spacy for both
+    def analyze_corpus_cuerpo(self, corpus):
+        """
+        Analyze all articles within a given corpus, populating their NLPAnnotations.
+        
+        Parameters:
+        - corpus: An instance of ArticlesCorpus, containing articles to be analyzed.
+        """
+        # Ensure the NLP library is initialized for sentiment analysis, if not already
+
+        for article in tqdm(corpus.articles.values(), desc="Analyzing corpus"):
+            # Analyze article content
+            doc = self.analyze(article.cuerpo)
+            entities = self.extract_entities(doc)
+            tokens = self.extract_tokens(doc)
+            adjectives = self.extract_adjectives(doc)
+            
+            if self.libreria != 'spacy':
+                entities_sentiment = self.extract_entity_sentiments(doc)
+            else:
+                entities_sentiment = []
+
+            # Populate NLPAnnotations for the article
+            article.nlp_annotations.doc[self.libreria] = doc
+            article.nlp_annotations.entities[self.libreria] = entities
+            article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
+            article.nlp_annotations.adjectives[self.libreria] = adjectives
+
+
+    def _annotate_coprus(self, corpus):
+        
+        # pysentimiento        
+        if self.libreria != 'pysentimiento':
+            self._init_pysentimiento()
+        
+        self._extract_corpus_sentiment(corpus)
+
+        # stanza
+        self._init_stanza()
+        self.analyze_corpus_cuerpo(corpus)
+
+        # spacy
+        self._init_spacy()
+        self.analyze_corpus_cuerpo(corpus)
