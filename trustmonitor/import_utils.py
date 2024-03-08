@@ -120,3 +120,22 @@ def check_news_keys(news: list):
     if n_diff_keys != 0:
         print(news[0].keys())
         raise Exception('News with different keys')
+    
+    
+    
+def import_label_studio_annotations(filepath: str) -> list:
+    """
+    This function imports annotations from a json file, creating a list of dictionaries.
+
+    Args:
+        filepath (str): json file path.
+
+    Returns:
+        list: list of dictionaries containing annotations.
+    """
+    with open(filepath, 'r', encoding="utf8") as f:
+        annotations = json.load(f)
+    
+    annotations = [{'text':d['text'], 'type':d['labels'][0], 'start_char':d['start'], 'end_char':d['end']} for d in annotations[0]['label']]
+        
+    return annotations

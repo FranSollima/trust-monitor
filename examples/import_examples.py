@@ -25,3 +25,13 @@ print(f'Cantidad de noticias en el archivo: {len(news)}')
 print(f'Características de las noticias: {list(news[0].keys())}')
 for i in range(0, 6):
     print(f'Noticia {i+1} - Medio {news[i]["medio"]} - {news[i]["titulo"]}')
+    
+print("\n ------------------------------------ \n")
+
+filepath = os.path.join(import_utils.get_project_root(),"data", "manual", "label_studio_annotations.json")
+annotations = import_utils.import_label_studio_annotations(filepath)
+
+for i, d in enumerate(annotations):
+    print(d)
+    if i == 5:
+        break
