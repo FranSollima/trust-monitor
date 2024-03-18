@@ -34,4 +34,4 @@ annotations = import_utils.import_label_studio_annotations(filepath)
 for i, d in enumerate(annotations):
     print(d)
     if i == 5:
-        break
+        break   
