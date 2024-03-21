@@ -134,6 +134,12 @@ class ArticlesCorpus():
 
         with open(filename, 'wb') as handle:
             pickle.dump(news_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            
+    def save_corpus(self, filename):
+        'Save corpus object in pickle format.'
+
+        with open(filename, 'wb') as handle:
+            pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
             
     def _load_articles_from_list(self, list_of_news):
@@ -161,7 +167,7 @@ class ArticlesCorpus():
                       categorias = lambda x: x.apply(lambda y: [i for i in y.categorias if i not in y.autor], axis=1))
               .assign(categorias = lambda x: x.categorias.apply(lambda y: '_'.join(y)),
                       etiquetas = lambda x: x.etiquetas.apply(lambda y: '_'.join(y)))
-              [["index", "medio", "fecha", "categorias", "autor", "etiquetas", "titulo", "link_noticia"]]
+              #[["index", "medio", "fecha", "categorias", "autor", "etiquetas", "titulo", "link_noticia"]]
               )
          
         self.catalog = df
@@ -174,6 +180,9 @@ class ArticlesCorpus():
     
     def get_article(self, index):
         return self.articles[index]
+    
+    def get_articles(self):
+        return [article for article in self.articles.values()]
     
     def filter_by_catalog(self, filtered_catalog):
         index_list = filtered_catalog.index.tolist()

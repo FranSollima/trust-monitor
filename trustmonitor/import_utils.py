@@ -123,7 +123,7 @@ def check_news_keys(news: list):
     
     
     
-def import_label_studio_annotations(filepath: str) -> list:
+def import_label_studio_annotations(filepath: str, annotated_attribute: str) -> list:
     """
     This function imports annotations from a json file, creating a list of dictionaries.
 
@@ -134,8 +134,26 @@ def import_label_studio_annotations(filepath: str) -> list:
         list: list of dictionaries containing annotations.
     """
     with open(filepath, 'r', encoding="utf8") as f:
-        annotations = json.load(f)
+        annotations_data = json.load(f)
     
-    annotations = [{'text':d['text'], 'type':d['labels'][0], 'start_char':d['start'], 'end_char':d['end']} for d in annotations[0]['label']]
+    annotations = []
+
+    for i in range(len(annotations_data)):
+        annotations.append({'titulo':annotations_data[i]['titulo'],
+                            'fecha':annotations_data[i]['fecha'],
+                            'link_noticia':annotations_data[i]['link_noticia'],
+                            'cuerpo':annotations_data[i]['cuerpo'],
+                            annotated_attribute:[]})
         
+        for d in annotations_data[i]['label']:
+            annotations[i][annotated_attribute].append(d)
+        
+    ## Post Processing of Entities annotations
+    # if annotated_attribute == "entities":
+    #     for i in range(len(annotations_data)):
+    #         for d in annotations[i][annotated_attribute]:                
+    #             d = {'text': d["text"], 'start_char': d["start"], 'end_char': d["end"], 'type': d["labels"][0]}
+            
+
     return annotations
+

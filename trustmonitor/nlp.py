@@ -295,7 +295,7 @@ class NLP:
         for article in tqdm(corpus.articles.values(), desc="Analyzing corpus"):
             # Analyze article content
             doc = self.analyze(article.cuerpo)
-            entities = self.extract_entities(doc)
+            entities = self.extract_entities_v2(doc)
             tokens = self.extract_tokens(doc)
             adjectives = self.extract_adjectives(doc)
             
