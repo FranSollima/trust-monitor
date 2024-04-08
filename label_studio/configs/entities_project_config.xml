@@ -1,0 +1,10 @@
+<View>
+  <Labels name="label" toName="text">
+    
+    
+    
+    
+  <Label value="Persona" background="#e5cc2a"/><Label value="Organización" background="#19eb4e"/><Label value="Lugar" background="#2bebee"/><Label value="Misceláneo" background="#ee20dd"/><Label value="Genérico" background="#f29a5f"/></Labels>
+
+  <Text name="text" value="$cuerpo"/>
+</View>

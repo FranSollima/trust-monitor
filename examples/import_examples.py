@@ -29,7 +29,7 @@ for i in range(0, 6):
 print("\n ------------------------------------ \n")
 
 filepath = os.path.join(import_utils.get_project_root(),"data", "manual", "label_studio_annotations.json")
-annotations = import_utils.import_label_studio_annotations(filepath)
+annotations = import_utils.import_entities_manual_annotations(filepath)
 
 for i, d in enumerate(annotations):
     print(d)
