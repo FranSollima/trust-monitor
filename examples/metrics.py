@@ -153,3 +153,125 @@ entidades_top_10 = sorted(metricas['pagina12']['entidades_mencionadas_stanza'].i
 sentimientos_frecuencias_top_10 = [(elem[0], elem[1], metricas['pagina12']['sentimiento_por_entidad'][elem[0]]) for elem in entidades_top_10]
 pprint(sentimientos_frecuencias_top_10)
 
+entidades_top_10 = sorted(metricas['pagina12']['entidades_mencionadas_stanza'].items(), key=lambda x: -x[1])[:10]
+pprint(entidades_top_10)
+entidades_top_10 = sorted(metricas['pagina12']['entidades_mencionadas_spacy'].items(), key=lambda x: -x[1])[:10]
+pprint(entidades_top_10)
+
+
+"""
+EXTRA
+"""
+from trustmonitor.articles import ArticlesCorpus
+
+# Articulo más negativo
+max_pos = 0
+max_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        if scores['POS'] > max_pos:
+            max_pos = scores['POS']
+            max_article = article
+
+# Articulo más positivo
+max_neg = 0
+max_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        if scores['NEG'] > max_neg:
+            max_neg = scores['NEG']
+            max_article = article
+
+# Articulo más neutral
+max_neu = 0
+max_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        if scores['NEU'] > max_neu:
+            max_neu = scores['NEU']
+            max_article = article
+
+# Con mas adjetivos (segun stanza)
+max_adj = 0
+max_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        adjetivos = len(article.nlp_annotations.adjectives['stanza'])
+        nro_palabras = aux_get_nro_palabras(article, 'stanza')
+        if nro_palabras < 50: # Solo articulos con mas de 50 palabras en el cuerpo
+            continue
+        if nro_palabras and adjetivos / nro_palabras > max_adj:
+            max_adj = adjetivos / nro_palabras
+            max_article = article
+
+# Con menos adjetivos
+min_adj = 1
+min_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        adjetivos = len(article.nlp_annotations.adjectives['stanza'])
+        nro_palabras = aux_get_nro_palabras(article, 'stanza')
+        if nro_palabras < 50: # Solo articulos con mas de 50 palabras en el cuerpo
+            continue
+        if nro_palabras and adjetivos / nro_palabras < min_adj:
+            min_adj = adjetivos / nro_palabras
+            min_article = article
+            
+# Con mas adj comp
+max_adj = 0
+max_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        adjetivos_cmp = 0
+        for adjetivo in article.nlp_annotations.adjectives['stanza']:
+            if adjetivo['features'].get('Degree') == 'Cmp':
+                adjetivos_cmp += 1
+        nro_palabras = aux_get_nro_palabras(article, 'stanza')
+        if nro_palabras < 50: # Solo articulos con mas de 50 palabras en el cuerpo
+            continue
+        if nro_palabras and adjetivos_cmp / nro_palabras > max_adj:
+            max_adj = adjetivos_cmp / nro_palabras
+            max_article = article
+
+# Con menos adj comp
+min_adj = 1
+min_article = None
+for medio in c.medio.unique():
+    corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
+    for article in corpus_medio.values():
+        adjetivos_cmp = 0
+        for adjetivo in article.nlp_annotations.adjectives['stanza']:
+            if adjetivo['features'].get('Degree') == 'Cmp':
+                adjetivos_cmp += 1
+        nro_palabras = aux_get_nro_palabras(article, 'stanza')
+        if nro_palabras < 50: # Solo articulos con mas de 50 palabras en el cuerpo
+            continue
+        if nro_palabras and adjetivos_cmp / nro_palabras < min_adj:
+            min_adj = adjetivos_cmp / nro_palabras
+            min_article = article
+
+
+# Filtro (solo consideramos articulos con mas de 50 palabras en el cuerpo)
+titulares_filtro = (
+    'Los secretos de Federer: por qué vuelve a la Argentina y por qué no es de Boca pese al intento de Del Potro', # Mas positivo
+    'Epidemia de lesiones del Real Madrid: 10 jugadores en la enfermería en tres meses', # Mas negativo
+    'Superclásico: Más de 2 millones de dólares de recaudación|Los socios e hinchas de River colmarán el Monumental', # Mas neutral
+    'Sol Pérez celebró la llegada de la Primavera (y sus seguidores también)', # Mas adjetivos
+    'Las 30 mejores fotos de la gala de los premios The Best', # Sin adjetivos
+    'Martín Fierro de Moda 2019: cuáles son las categorías y cómo es el sistema de votación', # Mas adjetivos comparativos
+    'Primavera: por qué este año empezó el 23 de septiembre', # Sin adjetivos comparativos
+)
+
+corpus_para_pkl = ArticlesCorpus()
+corpus_filtrado = corpus.filter_by_catalog(c[c.titulo.isin(titulares_filtro)])
+corpus_para_pkl.load_articles(corpus_filtrado, mode='dict')
+
