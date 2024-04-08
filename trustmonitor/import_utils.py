@@ -10,7 +10,7 @@ def get_project_root() -> Path:
     Returns:
         Path: path to project root.
     """
-    return os.path.normpath(Path(__file__).parent.parent)
+    return Path(__file__).parent.parent
 
 def import_news_from_json(filepath: str) -> list:
     """
