@@ -10,7 +10,7 @@ def get_project_root() -> Path:
     Returns:
         Path: path to project root.
     """
-    return Path(__file__).parent.parent
+    return os.path.normpath(Path(__file__).parent.parent)
 
 def import_news_from_json(filepath: str) -> list:
     """
@@ -123,37 +123,55 @@ def check_news_keys(news: list):
     
     
     
-def import_label_studio_annotations(filepath: str, annotated_attribute: str) -> list:
-    """
-    This function imports annotations from a json file, creating a list of dictionaries.
+# def import_entities_manual_annotations(filepath: str) -> list:
+#     """
+#     This function imports annotations from a json file, creating a list of dictionaries.
 
-    Args:
-        filepath (str): json file path.
+#     Args:
+#         filepath (str): json file path.
 
-    Returns:
-        list: list of dictionaries containing annotations.
-    """
-    with open(filepath, 'r', encoding="utf8") as f:
-        annotations_data = json.load(f)
+#     Returns:
+#         list: list of dictionaries containing annotations.
+#     """
+#     with open(filepath, 'r', encoding="utf8") as f:
+#         annotations_data = json.load(f)
     
-    annotations = []
+#     annotations = []
+    
+#     ent_label_conversion = {
+#         'PER': 'Persona',
+#         'ORG': 'Organización',
+#         'LOC': 'Lugar',
+#         'MISC': 'Misceláneo',
+#         'GEN': 'Genérico'
+#     }
 
-    for i in range(len(annotations_data)):
-        annotations.append({'titulo':annotations_data[i]['titulo'],
-                            'fecha':annotations_data[i]['fecha'],
-                            'link_noticia':annotations_data[i]['link_noticia'],
-                            'cuerpo':annotations_data[i]['cuerpo'],
-                            annotated_attribute:[]})
+#     for i in range(len(annotations_data)):
+#         annotations.append({'titulo':annotations_data[i]['titulo'],
+#                             'fecha':annotations_data[i]['fecha'],
+#                             'link_noticia':annotations_data[i]['link_noticia'],
+#                             'cuerpo':annotations_data[i]['cuerpo'],
+#                             'entities':[]})
         
-        for d in annotations_data[i]['label']:
-            annotations[i][annotated_attribute].append(d)
+#         for d in annotations_data[i]['label']:
+#             ent = ent_label_conversion[d['labels'][0]]
+#             d = {'start_char': d['start'], 'end_char': d['end'], 'text': d['text'], 'type': ent}
+#             annotations[i]['entities'].append(d)
         
-    ## Post Processing of Entities annotations
-    # if annotated_attribute == "entities":
-    #     for i in range(len(annotations_data)):
-    #         for d in annotations[i][annotated_attribute]:                
-    #             d = {'text': d["text"], 'start_char': d["start"], 'end_char': d["end"], 'type': d["labels"][0]}
+        
+#     # if annotated_attribute == "entities":
+
+
+#     #     for i in range(len(annotations)):
+#     #         for ent in annotations[i]["entities"]:
+#     #             ent["type"] = ent_label_conversion[ent["type"]]
+    
+#     # # Post Processing of Entities annotations
+#     # if annotated_attribute == "entities":
+#     #     for i in range(len(annotations_data)):
+#     #         for d in annotations[i][annotated_attribute]:                
+#     #             d = {'text': d["text"], 'start_char': d["start"], 'end_char': d["end"], 'type': d["labels"][0]}
             
 
-    return annotations
+#     return annotations
 
