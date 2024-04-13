@@ -5,8 +5,6 @@ from dataclasses import dataclass
 import pickle
 import json
 
-from trustmonitor.manual_annotations_utils import preprocess_manual_annotations
-
 
 
 # @dataclass
@@ -231,12 +229,7 @@ class ArticlesCorpus():
         # Que pasa cuando no están todas las noticias anotadas o que faltan indices.
         # ...
                 
-        manual_annotations_formated = preprocess_manual_annotations(manual_annotations, annotated_attribute)
-        """
-        SE PUEDE SACAR EL PREPROCESAMIENTO ACA E IMPORTAR DIRECTO PREPROCESANDO.
-        """
-                
-        for index, annotations in manual_annotations_formated.items():
+        for index, annotations in manual_annotations.items():
             self.get_article(index).load_manual_annotations(annotations['annotations'], author, annotated_attribute)
                   
         

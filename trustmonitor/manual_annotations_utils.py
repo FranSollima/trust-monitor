@@ -1,7 +1,7 @@
 import json
 import os
 
-def import_manual_annotations(file_path):
+def import_manual_annotations(file_path, min_json=False):
     """
     EL PREPROCESAMIENTO PODRÍA ESTAR ACA Y NO EN EL CORPUS.
     ESTO ASEGURA QUE EL FORMATO DE LAS ANOTACIONES SEA CORRECTO
@@ -13,10 +13,13 @@ def import_manual_annotations(file_path):
     with open(file_path, 'r', encoding="utf8") as f:
         manual_annotations = json.load(f)
         
+    manual_annotations = preprocess_manual_annotations(manual_annotations, min_json)
+        
     return manual_annotations
 
 
-def _preprocess_manual_annotations_entities(manual_annotations):
+def _preprocess_manual_annotations_min(manual_annotations):
+    """ ESTO EN REALIDAD IMPORTA JSON MIN"""
 
     manual_annotations_formated = {}
 
@@ -33,7 +36,8 @@ def _preprocess_manual_annotations_entities(manual_annotations):
     return manual_annotations_formated
 
 
-def _preprocess_manual_annotations_sources(manual_annotations):
+def _preprocess_manual_annotations_full(manual_annotations):
+    """ ESTO EN REALIDAD IMPORTA JSON COMPLETO"""
     manual_annotations_formated = {}
 
     for article in manual_annotations:
@@ -58,13 +62,12 @@ def _preprocess_manual_annotations_sources(manual_annotations):
     return manual_annotations_formated
 
 
-def preprocess_manual_annotations(manual_annotations, annotated_attribute='entities'):
+def preprocess_manual_annotations(manual_annotations, min_json=False):
     
-    if annotated_attribute == 'entities':
-       manual_annotations_formated = _preprocess_manual_annotations_entities(manual_annotations)
-       
-    if annotated_attribute == 'sources':
-         manual_annotations_formated = _preprocess_manual_annotations_sources(manual_annotations)
+    if min_json:
+       manual_annotations_formated = _preprocess_manual_annotations_min(manual_annotations)
+    else:
+         manual_annotations_formated = _preprocess_manual_annotations_full(manual_annotations)
         
     return manual_annotations_formated
 
