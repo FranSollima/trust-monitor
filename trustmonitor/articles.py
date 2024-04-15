@@ -120,7 +120,7 @@ class Article():
     #     #                             entities_count = nlp_processor.count_entities(self.doc_cuerpo),
     #     #                             entity_type_counts = nlp_processor.count_entity_types(self.doc_cuerpo))
     
-    def plot_entities_cuerpo(self, entities):
+    def plot_entities_cuerpo(self, entities, **kwargs):
         
         # Revisar que exista el atributo entities_cuerpo
         # if not hasattr(self, 'entities_cuerpo'):
@@ -134,7 +134,7 @@ class Article():
                      "title": None
                      }
 
-        displacy.render(plot_data, style="ent", manual=True, page=True, options=options)
+        displacy.render(plot_data, style="ent", manual=True, page=True, options=options, **kwargs)
     
         
     # def get_all_indicators(self):
