@@ -248,9 +248,10 @@ class ArticlesCorpus():
               .assign(index = index_list,
                       fecha = lambda x: pd.to_datetime(x.fecha, format='%d/%m/%Y'),
                       # limpiamos los nombres de autores de las categorias.
-                      categorias = lambda x: x.apply(lambda y: [i for i in y.categorias if i not in y.autor], axis=1))
-              .assign(categorias = lambda x: x.categorias.apply(lambda y: '_'.join(y)),
-                      etiquetas = lambda x: x.etiquetas.apply(lambda y: '_'.join(y)))
+              #        categorias = lambda x: x.apply(lambda y: [i for i in y.categorias if i not in y.autor], axis=1))
+              #.assign(categorias = lambda x: x.categorias.apply(lambda y: '_'.join(y)),
+              #        etiquetas = lambda x: x.etiquetas.apply(lambda y: '_'.join(y)))
+              )
               .drop(columns=["nlp_annotations", "manual_annotations"])
               #[["index", "medio", "fecha", "categorias", "autor", "etiquetas", "titulo", "link_noticia"]]
               )
