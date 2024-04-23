@@ -255,7 +255,7 @@ class ArticlesCorpus():
         
         df = (pd.DataFrame(news_list)
               # Agregamos variables relevantes y damos formatos correctos.
-              .assign(index = index_list,
+              .assign(index_article = index_list,
                       fecha = lambda x: pd.to_datetime(x.fecha, format='%d/%m/%Y'),
                       # limpiamos los nombres de autores de las categorias.
               #        categorias = lambda x: x.apply(lambda y: [i for i in y.categorias if i not in y.autor], axis=1))
@@ -267,6 +267,11 @@ class ArticlesCorpus():
               )
          
         self.catalog = df
+        
+    def reset_index(self):
+        self.articles = {i:article for i, article in enumerate(self.get_articles())}
+        for k in self.articles:
+            self.articles[k].index = k
         
     def get_corpus(self):
         return self.articles.copy()
@@ -293,7 +298,7 @@ class ArticlesCorpus():
             return filtered_news_dict
     
     def filter_by_catalog(self, filtered_catalog, to_corpus=False):
-        index_list = filtered_catalog.index.tolist()
+        index_list = filtered_catalog.index_article.tolist()
         filtered = self.filter_by_index(index_list, to_corpus)   
         return filtered
     
