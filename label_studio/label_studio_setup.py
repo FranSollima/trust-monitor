@@ -3,11 +3,12 @@ Este script permite la generación de bloques de noticias a partir
 de un conjunto mayor de noticias del medio LaVoz. Estos bloques pueden 
 ser anotados manualmente usando label studio.
 """
-
 import json
 import numpy as np
 from trustmonitor import import_utils
 from trustmonitor.articles import ArticlesCorpus
+
+ROOT = import_utils.get_project_root()
 
 
 def post_scrapp_processing(news_list):
@@ -69,19 +70,36 @@ def post_scrapp_processing_paragraph(news_list):
                     
     return news_list
 
+
+filename = f'{ROOT}/scraper/links_noticias_subset.txt'
+
+with open(filename, 'r') as file:
+    lines = file.readlines()
+    lines = [line.strip() for line in lines]
+
 ROOT = import_utils.get_project_root()
-noticias = import_utils.import_news_from_json(f'{ROOT}/scraper/data_noticias_lavoz.json')
-noticias = post_scrapp_processing(noticias)
+noticias = import_utils.import_news_from_json(f'{ROOT}/scraper/data_noticias_lavoz_subset.json')
+
+# Reorder noticias list based on the order of the links
+noticias_ordered = []
+for line in lines:
+    for news in noticias:
+        if news['link'] == line:
+            noticias_ordered.append(news)
+            break
+
+noticias = noticias_ordered
+
+#noticias = post_scrapp_processing(noticias)
 noticias = post_scrapp_processing_fecha(noticias)
 noticias = post_scrapp_processing_medio(noticias)
-noticias = post_scrapp_processing_paragraph(noticias)
+#noticias = post_scrapp_processing_paragraph(noticias)
 
 filename = f'{ROOT}/label_studio/data/raw/data_noticias_lavoz_formatted.json'
    
 with open(filename, 'w', encoding='utf-8') as f:
     json.dump(noticias, f, ensure_ascii=False, indent=4)
     
-
 # Load news from json file. 
 corpus = ArticlesCorpus()
 corpus.load_articles(noticias)
@@ -92,6 +110,8 @@ df = corpus.get_catalog().query("seccion.str.contains('Política') | seccion.str
 corpus2 = corpus.filter_by_catalog(df, to_corpus=True)
 corpus2.reset_index()
 corpus2.export_articles(f"{ROOT}/label_studio/data/raw/data_noticias_lavoz_politica_negocios.json")
+
+corpus2.save_corpus(f"{ROOT}/label_studio/data/raw/corpus_lavoz_politica_negocios.pkl")
 
 n_blocks = 10
 n_news_per_block = 20
