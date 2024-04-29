@@ -136,6 +136,24 @@ class Article():
                      }
 
         displacy.render(plot_data, style="ent", manual=True, page=True, options=options, **kwargs)
+        
+    def plot_sources_cuerpo(self, sources, **kwargs):
+        
+        # Revisar que exista el atributo entities_cuerpo
+        # if not hasattr(self, 'entities_cuerpo'):
+        #     raise ValueError("Analizar el cuerpo del artículo antes de graficar entidades")
+        
+        options = {'colors':{"Afirmacion":"#ffd642", "Conector":"#f55d32", "Referenciado":"#59d8f7", "Afirmacion Debil":"#ef9eff"}}
+        
+        sources = [region for region in sources if 'from_id' not in region.keys()]
+        
+        plot_data = { 
+                     "text":self.cuerpo,
+                     "ents": [{'start':e['start_char'], 'end':e['end_char'], 'label':e['type']} for e in sources],
+                     "title": None
+                     }
+
+        displacy.render(plot_data, style="ent", manual=True, page=True, options=options, **kwargs)
     
         
     # def get_all_indicators(self):
