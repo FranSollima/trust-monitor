@@ -8,7 +8,7 @@ ROOT = import_utils.get_project_root()
 # Load news from json file. 
 corpus = ArticlesCorpus()
 # corpus.load_articles(import_utils.import_news_from_json(f'{ROOT}/data/manual/noticias_demo.json'))
-corpus.load_articles(import_utils.import_news_from_json(f'{ROOT}/scraper/data_noticias_lavoz_formatted.json'))
+corpus.load_articles(import_utils.import_news_from_json(f'{ROOT}/scraper/data_noticias_lavoz_formatted.sample.json'))
 
 # Exportamos las noticias para label studio.
 #corpus.export_articles(f"{ROOT}/label_studio/data/inputs/noticias_to_label_studio.json")
@@ -16,7 +16,7 @@ corpus.load_articles(import_utils.import_news_from_json(f'{ROOT}/scraper/data_no
 # Automatic NLP Annotations.
 # Esto tendría que cambiar.
 nlp = NLP('es','pysentimiento')
-nlp._annotate_coprus(corpus)
+nlp._annotate_corpus(corpus)
 
 # Importamos las anotaciones manuales y las cargamos al corpus.
 #entities_annotations = import_manual_annotations(f"{ROOT}/label_studio/data/outputs/annotations_entities_min.json", min_json=True)

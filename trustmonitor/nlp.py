@@ -275,12 +275,25 @@ class NLP:
         self.pysentimiento = create_analyzer(task="sentiment", lang="es")
 
     def _extract_corpus_sentiment(self, corpus):
+        # article.nlp_annotations.general_sentiment incluye ahora analisis por oracion
+        # Quizas se deberia cambiar el nombre a .sentiment
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
             article.nlp_annotations.general_sentiment['pysentimiento'] = {
                 'label': analysis_result.output,
-                'scores': analysis_result.probas
+                'scores': analysis_result.probas,
+                'sentences': []
             }
+            sentences = article.cuerpo.split('.')
+            for sentence in sentences:
+                analysis_result = self.pysentimiento.predict(sentence)
+                article.nlp_annotations.general_sentiment['pysentimiento']['sentences'].append({
+                    'sentence': sentence,
+                    'label': analysis_result.output,
+                    'scores': analysis_result.probas,
+                    'start_char': article.cuerpo.find(sentence),
+                    'end_char': article.cuerpo.find(sentence) + len(sentence)
+                })
 
     #stanza and spacy for both
     def analyze_corpus_cuerpo(self, corpus):
@@ -310,8 +323,98 @@ class NLP:
             article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
             article.nlp_annotations.adjectives[self.libreria] = adjectives
 
+    def _build_frontend_json(self, corpus):
+        """
+        Estructura del json:
+        corpus.get_article(0).nlp_annotations.json = {
+            "entities": {
+                "entities_list": [],
+                "entities_freq": []
+            },
+            "adjectives": {
+                "adjectives_list": [],
+                "adjectives_freq": []
+            },
+            "sentiment": {
+                "global_sentiment": ["TAG", 0.0],
+                "highest_scoring_sentence_per_label": {
+                    "POS": {
+                        "score": 0.0,
+                        "start_char": 0,
+                        "end_char": 0
+                    },
+                    "NEG": {
+                        "score": 0.0,
+                        "start_char": 0,
+                        "end_char": 0
+                    },
+                    "NEU": {
+                        "score": 0.0,
+                        "start_char": 0,
+                        "end_char": 0
+                    }
+                }
+            }
+        }        
+        """
+        for article in tqdm(corpus.articles.values(), desc="Building frontend json"):
+            article.nlp_annotations.json = {}
 
-    def _annotate_coprus(self, corpus):
+            # Entities
+            entities = article.nlp_annotations.entities['stanza']
+            entities_freq = {}
+            for entity in entities:
+                key_entity = (entity['text'], entity['type'])
+                if key_entity not in entities_freq:
+                    entities_freq[key_entity] = 1
+                else:
+                    entities_freq[key_entity] += 1
+            entities_freq = sorted(entities_freq.items(), key=lambda x: x[1], reverse=True)
+            article.nlp_annotations.json['entities'] = {
+                'entities_list': entities,
+                'entities_freq': entities_freq
+            }
+
+            # Adjectives
+            adjectives = article.nlp_annotations.adjectives['stanza']
+            adjectives_freq = {}
+            for adjective in adjectives:
+                if adjective['text'] not in adjectives_freq:
+                    adjectives_freq[adjective['text']] = 1
+                else:
+                    adjectives_freq[adjective['text']] += 1
+            adjectives_freq = sorted(adjectives_freq.items(), key=lambda x: x[1], reverse=True)
+            article.nlp_annotations.json['adjectives'] = {
+                'adjectives_list': adjectives,
+                'adjectives_freq': adjectives_freq
+            }
+
+            # Sentiment
+            sentiment = article.nlp_annotations.general_sentiment['pysentimiento']
+            global_sentiment = (
+                sentiment['label'],
+                sentiment['scores'][sentiment['label']]
+            )
+            # Estamos agregando el texto de la oración con mayor score por label para validaciones
+            # Despues se puede sacar para no mandarlo innecesariamente al front
+            highest_scoring_sentence_per_label = {
+                'POS': {'score': 0.0, 'start_char': 0, 'end_char': 0, 'sentence': ''},
+                'NEG': {'score': 0.0, 'start_char': 0, 'end_char': 0, 'sentence': ''},
+                'NEU': {'score': 0.0, 'start_char': 0, 'end_char': 0, 'sentence': ''}
+            }
+            for label in highest_scoring_sentence_per_label:
+                for sentence in sentiment['sentences']:
+                    if sentence['label'] == label and sentence['scores'][label] > highest_scoring_sentence_per_label[label]['score']:
+                        highest_scoring_sentence_per_label[label]['score'] = sentence['scores'][label]
+                        highest_scoring_sentence_per_label[label]['start_char'] = sentence['start_char']
+                        highest_scoring_sentence_per_label[label]['end_char'] = sentence['end_char']
+                        highest_scoring_sentence_per_label[label]['sentence'] = sentence['sentence']
+                article.nlp_annotations.json['sentiment'] = {
+                    'global_sentiment': global_sentiment,
+                    'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label
+                }
+
+    def _annotate_corpus(self, corpus):
         
         # pysentimiento        
         if self.libreria != 'pysentimiento':
@@ -326,3 +429,6 @@ class NLP:
         # spacy
         self._init_spacy()
         self.analyze_corpus_cuerpo(corpus)
+
+        # Armar json para front
+        self._build_frontend_json(corpus)
