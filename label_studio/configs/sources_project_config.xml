@@ -7,7 +7,7 @@
     
     
     
-  <Label value="Afirmacion Fuerte" background="#ffd642"/><Label value="Conector" background="#f55d32"/><Label value="Referenciado" background="#59d8f7"/><Label value="Afirmacion Debil" background="#ef9eff"/></Labels>
+  <Label value="Afirmacion" background="#ffd642"/><Label value="Conector" background="#f55d32"/><Label value="Referenciado" background="#59d8f7"/><Label value="Afirmacion Debil" background="#ef9eff"/></Labels>
 
   <Text name="text" value="$cuerpo"/>
 </View>

@@ -83,7 +83,8 @@ class Article():
         for key in kwargs:
             setattr(self, key, kwargs[key])
         
-        self.index = None
+        if not hasattr(self, "index"):
+            self.index = None
         self.nlp_annotations = NLPAnnotations()
         self.manual_annotations = ManualAnnotations()
             
@@ -155,6 +156,7 @@ class ArticlesCorpus():
         return f"Corpus de Artículos: {self.n_articles} artículos"
         
     def __add__(self, corpus):
+        """OJO -> Que pasa al sumar articulos con el mismo index?"""
         
         articles_list = [article.get_article_dict() for article in self.articles.values()]
         new_articles_list = [article.get_article_dict() for article in corpus.articles.values()]
@@ -184,9 +186,9 @@ class ArticlesCorpus():
 
         for art in self.get_articles():
             articles_dict.append({k:v for k,v in art.get_article_dict().items() if k not in ['nlp_annotations', 'manual_annotations']})   
-        
-        with open(filename, 'w') as handle:
-            json.dump(articles_dict, handle)
+                    
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(articles_dict, f, ensure_ascii=False, indent=4)
         
         
     # def save_articles(self, filename):
@@ -213,13 +215,20 @@ class ArticlesCorpus():
             
     def _load_articles_from_list(self, list_of_news):
         for news in list_of_news:
-            self.articles[self.n_articles] = Article(news)
+            article = Article(news)
+            if hasattr(article, "news"):
+                self.articles[article.index] = article
+            else:
+                self.articles[self.n_articles] = article
             self.n_articles += 1
             
     def _load_articles_from_dict(self, dict_of_news):  
         """Esta función permite cargar un corpus filtrado y generar un nuevo corpus"""                  
-        for news in dict_of_news.values():
-            self.articles[self.n_articles] = news
+        for article in dict_of_news.values():
+            if hasattr(article, "index"):
+                self.articles[article.index] = article
+            else:
+                self.articles[self.n_articles] = article
             self.n_articles += 1
             
     def load_manual_annotations(self, manual_annotations, author, annotated_attribute):
@@ -240,12 +249,13 @@ class ArticlesCorpus():
         index_list = [index for index in self.articles.keys()]
         
         # Sets index for each article in attribute.
+        # Si ya tenían index se sobreescribe por el mismo, por lo que no hay cambios.
         for index in index_list:
             self.articles[index].index = index
         
         df = (pd.DataFrame(news_list)
               # Agregamos variables relevantes y damos formatos correctos.
-              .assign(index = index_list,
+              .assign(index_article = index_list,
                       fecha = lambda x: pd.to_datetime(x.fecha, format='%d/%m/%Y'),
                       # limpiamos los nombres de autores de las categorias.
               #        categorias = lambda x: x.apply(lambda y: [i for i in y.categorias if i not in y.autor], axis=1))
@@ -257,6 +267,11 @@ class ArticlesCorpus():
               )
          
         self.catalog = df
+        
+    def reset_index(self):
+        self.articles = {i:article for i, article in enumerate(self.get_articles())}
+        for k in self.articles:
+            self.articles[k].index = k
         
     def get_corpus(self):
         return self.articles.copy()
@@ -270,9 +285,24 @@ class ArticlesCorpus():
     def get_articles(self):
         return [article for article in self.articles.values()]
     
-    def filter_by_catalog(self, filtered_catalog):
-        index_list = filtered_catalog.index.tolist()
-        return {index: self.articles[index] for index in index_list}
+    def filter_by_index(self, index_list, to_corpus=False):
+        filtered_news_dict = {index: self.articles[index] for index in index_list}
+        
+        # Con este argumento devuelve directamente un corpus.
+        if to_corpus:
+            corpus = ArticlesCorpus()
+            corpus.load_articles(filtered_news_dict)
+            return corpus
+        
+        else:
+            return filtered_news_dict
+    
+    def filter_by_catalog(self, filtered_catalog, to_corpus=False):
+        index_list = filtered_catalog.index_article.tolist()
+        filtered = self.filter_by_index(index_list, to_corpus)   
+        return filtered
+    
+    
     
     def summary(self):
         pass
