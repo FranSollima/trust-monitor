@@ -30,7 +30,7 @@ for medio in medios:
 
 #pysentimiento
 nlp2 = NLP('es','pysentimiento')
-nlp2._annotate_coprus(corpus)
+nlp2._annotate_corpus(corpus)
 
 #export corpus as pickle
 

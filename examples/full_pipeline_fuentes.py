@@ -17,7 +17,7 @@ corpus.load_articles(import_utils.import_news_from_json(f'{ROOT}/scraper/data_no
 # Automatic NLP Annotations.
 # Esto tendría que cambiar.
 nlp = NLP('es','pysentimiento')
-nlp._annotate_coprus(corpus)
+nlp._annotate_corpus(corpus)
 
 # Importamos las anotaciones manuales y las cargamos al corpus.
 #entities_annotations = import_manual_annotations(f"{ROOT}/label_studio/data/archive/annotations_entities_min.json", min_json=True)
