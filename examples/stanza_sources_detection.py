@@ -107,52 +107,59 @@ def matcher(doc_tokens, patterns, debug=False):
                 for j, p in enumerate(pattern[1:], 1):
                     
                     
-                    # Si es el último token del 
-                    logger.debug(f"token número -> {start_index + i} de {len(doc_tokens)}")
+                    # Si todavía no se llegó al final del documento:
+                    if (start_index + i) < len(doc_tokens):
                     
-                    #logger.debug(f"Se evalua el token  {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} con la regla {p}")
-                    # En este lugar tendría que tener el próximo patrón
-                    # Agregar todas las palabras hasta que se cumpla el próximo patrón
-                    # Ir avanzando en el índice de tokens
-                    if p == "*":
-                        logger.debug("Entra en *")
-                        while not check_pattern_match(doc_tokens[start_index + i], pattern[j+1]):
-                            logger.debug(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
+                        logger.debug(f"token número -> {start_index + i} de {len(doc_tokens)}")
+                        logger.debug(f"Se evalua el token  {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} con la regla {p}")
+                        
+                        # En este lugar tendría que tener el próximo patrón
+                        # Agregar todas las palabras hasta que se cumpla el próximo patrón
+                        # Ir avanzando en el índice de tokens
+                        if p == "*":
+                            logger.debug("Entra en *")
+                            while not check_pattern_match(doc_tokens[start_index + i], pattern[j+1]):
+                                logger.debug(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
+                                detection.append(doc_tokens[start_index + i])
+                                detection_check.append(True)
+                                i += 1
+                                if i == len(doc_tokens):
+                                    break
+                            
+                            i -= 1
+                            logger.debug(f"FIN Next token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
+                        #     while                  
+                        
+                        # elif list(p.keys())[0] == "norm_ner":
+                        #     print("Entra en NER")
+                        #     print(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
+                        #     while check_pattern_match(doc_tokens[start_index + i], p):
+                        #         print(f"Dentro NER se evalua el próximo token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
+                        #         detection.append(doc_tokens[start_index + i])
+                        #         detection_check.append(True)
+                        #         i += 1
+                        #         if i == len(doc_tokens):
+                        #             break
+                                
+                        #     i -= 1
+                        #     print(f"FIN NER Next token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
+                        
+                        elif check_pattern_match(doc_tokens[start_index + i], p):
+                            logger.debug(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {p}")
                             detection.append(doc_tokens[start_index + i])
                             detection_check.append(True)
-                            i += 1
-                            if i == len(doc_tokens):
-                                break
-                        
-                        i -= 1
-                        logger.debug(f"FIN Next token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
-                    #     while                  
-                    
-                    # elif list(p.keys())[0] == "norm_ner":
-                    #     print("Entra en NER")
-                    #     print(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
-                    #     while check_pattern_match(doc_tokens[start_index + i], p):
-                    #         print(f"Dentro NER se evalua el próximo token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
-                    #         detection.append(doc_tokens[start_index + i])
-                    #         detection_check.append(True)
-                    #         i += 1
-                    #         if i == len(doc_tokens):
-                    #             break
                             
-                    #     i -= 1
-                    #     print(f"FIN NER Next token {doc_tokens[start_index + i]['abs_id']} - {doc_tokens[start_index + i]['text']} pattern {p}")
-                    
-                    elif check_pattern_match(doc_tokens[start_index + i], p):
-                        logger.debug(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {p}")
-                        detection.append(doc_tokens[start_index + i])
-                        detection_check.append(True)
+                        else:
+                            logger.debug("NO SE CUMPLE LA REGLA")
+                            detection_check.append(False) 
+                            break
+                            
+                        i += 1
                         
                     else:
-                        logger.debug("NO SE CUMPLE LA REGLA")
-                        detection_check.append(False) 
+                        logger.debug("NO HAY MAS TOKENS")
+                        detection_check.append(False)
                         break
-                        
-                    i += 1
                         
                 if all(detection_check): 
                     logger.debug("SE CUMPLE LA REGLA")
