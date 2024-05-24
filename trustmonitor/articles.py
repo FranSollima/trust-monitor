@@ -234,7 +234,7 @@ class ArticlesCorpus():
     def _load_articles_from_list(self, list_of_news):
         for news in list_of_news:
             article = Article(news)
-            if hasattr(article, "news"):
+            if hasattr(article, "index"):
                 self.articles[article.index] = article
             else:
                 self.articles[self.n_articles] = article

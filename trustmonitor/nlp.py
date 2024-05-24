@@ -328,7 +328,10 @@ class NLP:
         Estructura del json:
         corpus.get_article(0).nlp_annotations.json = {
             "entities": {
-                "entities_list": [],
+                "entities_list": [
+                        {"text": "Argentina", "type": "LOC", "start_char": 0, "end_char": 8},
+                        {"text": "Javier Milei", "type": "PER", "start_char": 45, "end_char": 56},
+                    ],
                 "entities_freq": []
             },
             "adjectives": {
@@ -354,6 +357,35 @@ class NLP:
                         "end_char": 0
                     }
                 }
+            },
+            "sources": {
+                "n_sources": 0,
+                "n_explicit_sources": 0,
+                "sources_list": [
+                    {
+                        "text": "", 
+                        "start_char": 0, 
+                        "end_char": 0, 
+                        "explicit": False, 
+                        "components":{
+                            "afirmacion": {
+                                "text": "",
+                                "start_char": 0,
+                                "end_char": 0,
+                            },
+                            "conector": {
+                                "text": "",
+                                "start_char": 0,
+                                "end_char": 0,
+                            },
+                            "referenciado":{
+                                "text": "",
+                                "start_char": 0,
+                                "end_char": 0,
+                            },
+                        }
+                    },
+                ]
             }
         }        
         """
