@@ -72,10 +72,12 @@ def check_pattern_match(token, pattern):
         return True
     else:
         attribute_to_check = list(pattern.keys())[0]
-        if token[attribute_to_check] == pattern[attribute_to_check]:
-            return True
-        else:
-            return False
+        pattern_value = pattern[attribute_to_check] if type(pattern[attribute_to_check]) == list else [pattern[attribute_to_check]]
+        return token[attribute_to_check] in pattern_value
+        # if token[attribute_to_check] in pattern[attribute_to_check]:
+        #     return True
+        # else:
+        #     return False
         
 def matcher(doc_tokens, patterns, debug=False):
     
@@ -188,7 +190,7 @@ def postprocess_matches(matches):
         end = match["end_char"]
         length = match["length"]
         match_drops = []
-        matches_left = [m for j,m in enumerate(matches) if j > i] 
+        matches_left = [m for j,m in enumerate(matches) if j != i] 
         
         for other_match in matches_left:
             
@@ -316,28 +318,112 @@ pattern4 = [
     {"text":"“"},
     "*",
     {"text":"”"},
-    {"upos":"PUNCT"},
+    {"text":[",", ":"]},
     {"upos":"VERB"},
 ]
 
-patterns = {"QVP":pattern1, "QV":pattern2, "QVPP":pattern3, "Q.V":pattern4}
+pattern5 = [
+    {"text":"“"},
+    "*",
+    {"text":"”"},
+    {"text":[",", ":"]},
+    {"upos":"VERB"},   
+    {"norm_ner":"PER"},
+]
+
+pattern6 = [
+    {"text":"“"},
+    "*",
+    {"text":"”"},
+    {"text":[",", ":"]},
+    {"upos":"VERB"},
+    {"norm_ner":"PER"},
+    {"norm_ner":"PER"},
+]
+
+pattern7 = [
+    {"norm_ner":"PER"},
+    {"upos":"VERB"},
+    {"text":"“"},
+    "*",
+    {"text":"”"}
+]
+
+pattern8 = [
+    {"upos":"VERB"},
+    {"text":"“"},
+    "*",
+    {"text":"”"}
+    #{"norm_ner":"PER"},
+]
+
+pattern9 = [
+    {"norm_ner":"PER"},
+    {"norm_ner":"PER"},
+    {"upos":"VERB"},
+    {"text":"“"},
+    "*",
+    {"text":"”"}
+]
+
+pattern10 = [
+    {"upos":"VERB"},
+    {"text":[",", ":"]},
+    {"text":"“"},
+    "*",
+    {"text":"”"},
+]
+
+pattern11 = [
+    {"norm_ner":"PER"},
+    {"upos":"VERB"},
+    {"text":[",", ":"]},
+    {"text":"“"},
+    "*",
+    {"text":"”"}
+]
+
+pattern12 = [
+    {"norm_ner":"PER"},
+    {"norm_ner":"PER"},
+    {"upos":"VERB"},
+    {"text":[",", ":"]},
+    {"text":"“"},
+    "*",
+    {"text":"”"}
+]
+
+patterns = {"QVP":pattern1, 
+            "QV":pattern2, 
+            "QVPP":pattern3, 
+            "Q.V":pattern4, 
+            "Q.VP":pattern5,
+            "Q.VPP":pattern6,
+            "PVQ":pattern7,
+            "VQ":pattern8,
+            "PPVQ":pattern9,
+            "V.Q":pattern10,
+            "PV.Q":pattern11,
+            "PPV.Q":pattern12
+            }
 
 #doc = corpus.get_article(2).nlp_annotations.doc["stanza"]
 
-for article in corpus.get_articles():
+for article in tqdm(corpus.get_articles()):
     
     logger.info(f"Processing article {article.index} - {article.titulo}")
     doc = article.nlp_annotations.doc["stanza"]
 
     doc_tokens = flatten_stanza_tokens(doc)
 
-    detection_list = matcher(doc_tokens, patterns, debug=True)
+    detection_list = matcher(doc_tokens, patterns, debug=False)
 
     detection_list = postprocess_matches(detection_list)
 
     sources_list = get_explicit_sources(doc, detection_list)
     
     article.nlp_annotations.sources["stanza"] = sources_list
+    #article.nlp_annotations.doc = {}
     
     
 corpus.save_corpus(f"{ROOT}/data/pickle_files/corpus_lavoz_politica_negocios_5_srcs.pkl")
