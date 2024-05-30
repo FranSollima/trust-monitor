@@ -198,7 +198,7 @@ class NLP:
 
     ### STANZA ###
     def _init_stanza(self):
-        self.nlp = stanza.Pipeline(self.language, processors='tokenize,ner,sentiment,pos')
+        self.nlp = stanza.Pipeline(self.language, processors='tokenize,ner,sentiment,pos,lemma,depparse,constituency')
         self.libreria = 'stanza'
 
     def _analyze_stanza(self, text):
