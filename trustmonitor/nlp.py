@@ -276,7 +276,6 @@ class NLP:
 
     def _extract_corpus_sentiment(self, corpus):
         # article.nlp_annotations.sentiment incluye ahora analisis por oracion
-        # Quizas se deberia cambiar el nombre a .sentiment
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
             article.nlp_annotations.sentiment['pysentimiento'] = {
