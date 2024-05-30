@@ -275,11 +275,11 @@ class NLP:
         self.pysentimiento = create_analyzer(task="sentiment", lang="es")
 
     def _extract_corpus_sentiment(self, corpus):
-        # article.nlp_annotations.general_sentiment incluye ahora analisis por oracion
+        # article.nlp_annotations.sentiment incluye ahora analisis por oracion
         # Quizas se deberia cambiar el nombre a .sentiment
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
-            article.nlp_annotations.general_sentiment['pysentimiento'] = {
+            article.nlp_annotations.sentiment['pysentimiento'] = {
                 'label': analysis_result.output,
                 'scores': analysis_result.probas,
                 'sentences': []
@@ -287,7 +287,7 @@ class NLP:
             sentences = article.cuerpo.split('.')
             for sentence in sentences:
                 analysis_result = self.pysentimiento.predict(sentence)
-                article.nlp_annotations.general_sentiment['pysentimiento']['sentences'].append({
+                article.nlp_annotations.sentiment['pysentimiento']['sentences'].append({
                     'sentence': sentence,
                     'label': analysis_result.output,
                     'scores': analysis_result.probas,
@@ -422,7 +422,7 @@ class NLP:
             }
 
             # Sentiment
-            sentiment = article.nlp_annotations.general_sentiment['pysentimiento']
+            sentiment = article.nlp_annotations.sentiment['pysentimiento']
             global_sentiment = (
                 sentiment['label'],
                 sentiment['scores'][sentiment['label']]

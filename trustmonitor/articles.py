@@ -12,7 +12,7 @@ import json
 #     doc: dict
 #     entities: dict
 #     entities_sentiment: dict
-#     general_sentiment: dict
+#     sentiment: dict
 #     adjectives: dict
 #     dates: dict
 
@@ -23,7 +23,7 @@ class NLPAnnotations():
         self.doc = dict(stanza=None, spacy=None, pysentimiento=None)
         self.entities = dict(stanza=None, spacy=None, pysentimiento=None)
         self.entities_sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.general_sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
         self.adjectives = dict(stanza=None, spacy=None, pysentimiento=None)
         self.sources = dict(stanza=None, spacy=None, pysentimiento=None)
         self.dates = dict(stanza=None, spacy=None, pysentimiento=None)
@@ -32,7 +32,7 @@ class NLPAnnotations():
         print("NLP Annotations Summary:")
         print(f"Entities analyzed by: {[k for k, v in self.entities.items() if v is not None]}")
         print(f"Entities Sentiment analyzed by: {[k for k, v in self.entities_sentiment.items() if v is not None]}")
-        print(f"General Sentiment analyzed by: {[k for k, v in self.general_sentiment.items() if v is not None]}")
+        print(f"General Sentiment analyzed by: {[k for k, v in self.sentiment.items() if v is not None]}")
         print(f"Adjectives analyzed by: {[k for k, v in self.adjectives.items() if v is not None]}")
         print(f"Sources analyzed by: {[k for k, v in self.sources.items() if v is not None]}")
         #print(f"Dates: {[k for k, v in self.dates.items() if v is not None]}")
@@ -50,7 +50,7 @@ class ManualAnnotations():
     def __init__(self):
         self.entities = dict()
         self.entities_sentiment = dict()
-        self.general_sentiment = dict()
+        self.sentiment = dict()
         self.adjectives = dict()
         self.sources = dict()
         self.dates = dict()
@@ -59,7 +59,7 @@ class ManualAnnotations():
         print("Manual Annotations Summary:")
         print(f"Entities analyzed by: {[k for k, v in self.entities.items() if v is not None]}")
         print(f"Entities Sentiment analyzed by: {[k for k, v in self.entities_sentiment.items() if v is not None]}")
-        print(f"General Sentiment analyzed by: {[k for k, v in self.general_sentiment.items() if v is not None]}")
+        print(f"General Sentiment analyzed by: {[k for k, v in self.sentiment.items() if v is not None]}")
         print(f"Adjectives analyzed by: {[k for k, v in self.adjectives.items() if v is not None]}")
         print(f"Sources analyzed by: {[k for k, v in self.sources.items() if v is not None]}")
         

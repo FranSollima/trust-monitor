@@ -26,7 +26,7 @@ def get_entidades_mencionadas(corpus_medio, libreria):
 def get_labels_sentimiento(corpus_medio):
     sentimientos_count = {}
     for article in corpus_medio.values():
-        label = article.nlp_annotations.general_sentiment['pysentimiento']['label']
+        label = article.nlp_annotations.sentiment['pysentimiento']['label']
         if label not in sentimientos_count:
             sentimientos_count[label] = 0
         sentimientos_count[label] += 1
@@ -37,7 +37,7 @@ def get_labels_sentimiento(corpus_medio):
 def get_indice_sentimiento(corpus_medio):
     sentimientos = []
     for article in corpus_medio.values():
-        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        scores = article.nlp_annotations.sentiment['pysentimiento']['scores']
         indice = scores['POS'] - scores['NEG']
         sentimientos.append(indice)
     return sum(sentimientos) / len(sentimientos)
@@ -170,7 +170,7 @@ max_article = None
 for medio in c.medio.unique():
     corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
     for article in corpus_medio.values():
-        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        scores = article.nlp_annotations.sentiment['pysentimiento']['scores']
         if scores['POS'] > max_pos:
             max_pos = scores['POS']
             max_article = article
@@ -181,7 +181,7 @@ max_article = None
 for medio in c.medio.unique():
     corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
     for article in corpus_medio.values():
-        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        scores = article.nlp_annotations.sentiment['pysentimiento']['scores']
         if scores['NEG'] > max_neg:
             max_neg = scores['NEG']
             max_article = article
@@ -192,7 +192,7 @@ max_article = None
 for medio in c.medio.unique():
     corpus_medio = corpus.filter_by_catalog(c[c.medio == medio])
     for article in corpus_medio.values():
-        scores = article.nlp_annotations.general_sentiment['pysentimiento']['scores']
+        scores = article.nlp_annotations.sentiment['pysentimiento']['scores']
         if scores['NEU'] > max_neu:
             max_neu = scores['NEU']
             max_article = article
