@@ -95,7 +95,7 @@ noticias = post_scrapp_processing_fecha(noticias)
 noticias = post_scrapp_processing_medio(noticias)
 #noticias = post_scrapp_processing_paragraph(noticias)
 
-filename = f'{ROOT}/label_studio/data/raw/data_noticias_lavoz_formatted.json'
+filename = f'{ROOT}/label_studio/data/raw/data_noticias_lavoz_subset_formatted.json'
    
 with open(filename, 'w', encoding='utf-8') as f:
     json.dump(noticias, f, ensure_ascii=False, indent=4)
