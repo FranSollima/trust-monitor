@@ -234,16 +234,18 @@ class ArticlesCorpus():
     def _load_articles_from_list(self, list_of_news):
         for news in list_of_news:
             article = Article(news)
-            if hasattr(article, "index"):
+            #if hasattr(article, "index"):
+            if article.index is not None:
                 self.articles[article.index] = article
             else:
                 self.articles[self.n_articles] = article
             self.n_articles += 1
             
     def _load_articles_from_dict(self, dict_of_news):  
-        """Esta función permite cargar un corpus filtrado y generar un nuevo corpus"""                  
+        """Esta función permite cargar un corpus filtrado y generar un nuevo corpus"""
+        """Esta función espera un diccionario con la estructura {index: Article}"""                  
         for article in dict_of_news.values():
-            if hasattr(article, "index"):
+            if article.index is not None:
                 self.articles[article.index] = article
             else:
                 self.articles[self.n_articles] = article
