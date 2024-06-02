@@ -4,6 +4,9 @@ import spacy
 import stanza
 from tqdm import tqdm
 from pysentimiento import create_analyzer  # Import pysentimiento
+import json
+from trustmonitor.matcher import Matcher
+from trustmonitor.patterns import patterns
 
 class NLP:
     ### GENERALES ###
@@ -278,11 +281,14 @@ class NLP:
         # article.nlp_annotations.sentiment incluye ahora analisis por oracion
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
+            article.nlp_annotations.sentiment = {}
             article.nlp_annotations.sentiment['pysentimiento'] = {
                 'label': analysis_result.output,
                 'scores': analysis_result.probas,
                 'sentences': []
             }
+
+
             sentences = article.cuerpo.split('.')
             for sentence in sentences:
                 analysis_result = self.pysentimiento.predict(sentence)
@@ -321,6 +327,89 @@ class NLP:
             article.nlp_annotations.entities[self.libreria] = entities
             article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
             article.nlp_annotations.adjectives[self.libreria] = adjectives
+
+    #stanza and spacy for both
+
+    def get_explicit_sources(self,doc, matches):    
+
+        sources_list = []
+
+        for detection in matches:
+            
+            # Texto General.
+            start_char = detection["start_char"]
+            end_char = detection["end_char"]
+            length = detection["length"]
+            pattern = detection["pattern"]
+            text = doc.text[start_char:end_char]
+            
+            source = {'text':text,
+                    'start_char':start_char,
+                    'end_char':end_char,
+                    'length':length,
+                    'pattern':pattern,
+                    'explicit':True,
+                    'components':{}}
+            
+            # Obtenemos la lista de tokens de la afirmación y del resto para la cita.
+            abs_id_quote = [t["abs_id"] for t in detection["detection"] if t["text"] == '“' or t["text"] == '”']
+            token_list_quote = [t for t in detection["detection"] if t["abs_id"] >= abs_id_quote[0] and t["abs_id"] <= abs_id_quote[1]]
+            token_list_else = [t for t in detection["detection"] if t["abs_id"] < abs_id_quote[0] or t["abs_id"] > abs_id_quote[1]]
+            
+            # Afirmación.
+            start_char = token_list_quote[0]["start_char"]
+            end_char = token_list_quote[-1]["end_char"]
+            text = doc.text[start_char:end_char]
+            label = "Afirmacion"
+            
+            source['components']['afirmacion'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            # Conector.
+            # Asume 1 solo conector.
+            # Asume que siempre tiene que haber conector
+            token_conector = [t for t in token_list_else if t["upos"] == "VERB"][0]
+            start_char = token_conector["start_char"]
+            end_char = token_conector["end_char"]
+            text = doc.text[start_char:end_char]
+            label = "Conector"
+            
+            source['components']['conector'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            # Conector.
+            # Asume persona en orden consecutivo.
+            # Puede no encontrar un referenciado.
+            token_src = [t for t in token_list_else if t["norm_ner"] == "PER"]
+            if len(token_src) > 0:
+                start_char = token_src[0]["start_char"]
+                end_char = token_src[-1]["end_char"]
+                text = doc.text[start_char:end_char]
+                label = "Referenciado"
+                
+                source['components']['referenciado'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            sources_list.append(source)
+        
+        return sources_list
+
+    def analyze_corpus_sources(self, corpus):
+        """
+        Analyze all articles within a given corpus, populating their NLPAnnotations.
+        
+        Parameters:
+        - corpus: An instance of ArticlesCorpus, containing articles to be analyzed.
+        """
+        # Ensure the NLP library is initialized for sentiment analysis, if not already
+
+        for article in tqdm(corpus.articles.values(), desc="Analyzing corpus sources"):
+            # Analyze article content
+            doc = article.nlp_annotations.doc["stanza"]
+    
+            matcher = Matcher(patterns=patterns, debug=True)
+
+            matches = matcher.run(doc)
+
+            article.nlp_annotations.sources['stanza'] = self.get_explicit_sources(doc, matches)
+            #article.nlp_annotations.sources 
 
     def _build_frontend_json(self, corpus):
         """
@@ -445,7 +534,9 @@ class NLP:
                     'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label
                 }
 
-    def _annotate_corpus(self, corpus):
+            article.nlp_annotations.json['sources'] = article.nlp_annotations.sources
+
+    def _annotate_corpus(self, corpus, file_name: str = None):
         
         # pysentimiento        
         if self.libreria != 'pysentimiento':
@@ -462,4 +553,15 @@ class NLP:
         self.analyze_corpus_cuerpo(corpus)
 
         # Armar json para front
+        self.analyze_corpus_sources(corpus)
+
+        # Armar json para front
         self._build_frontend_json(corpus)
+
+        # Save JSON to file if file_name is provided
+        if file_name:
+            with open(file_name, 'w', encoding='utf-8') as f:
+                out_json = []
+                for article in tqdm(corpus.articles.values()):
+                    out_json.append(article.nlp_annotations.json)
+                json.dump(out_json, f, ensure_ascii=False, indent=4)
