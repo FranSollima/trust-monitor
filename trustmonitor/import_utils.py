@@ -1,5 +1,6 @@
 import os
 import json
+import yaml
 import pickle
 from pathlib import Path
 
@@ -121,7 +122,21 @@ def check_news_keys(news: list):
         print(news[0].keys())
         raise Exception('News with different keys')
     
+def import_config_yaml(file: str):
     
+    if ".yaml" in file:
+        file = file.replace(".yaml", "")
+    
+    ROOT = get_project_root()
+    filepath = f"{ROOT}/configs/{file}.yaml"
+    
+    with open(filepath, 'r', encoding='utf8') as stream:
+        try:
+            config = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+    
+    return config
     
 # def import_entities_manual_annotations(filepath: str) -> list:
 #     """

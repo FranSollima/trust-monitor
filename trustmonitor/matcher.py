@@ -1,6 +1,7 @@
 import logging
 import json
 from tqdm import tqdm
+from .import_utils import import_config_yaml
 
 
 def configure_logger():
@@ -245,121 +246,7 @@ class SourceMatcher(Matcher):
         
     def _set_explicit_patterns(self):
         
-        patterns = [
-            {"name":"QV", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"upos":"VERB"}]
-            },
-
-            {"name":"QVP", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"upos":"VERB"},
-                {"norm_ner":"PER"}]
-            },
-
-            {"name":"QVPP", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"upos":"VERB"},
-                {"norm_ner":"PER"},
-                {"norm_ner":"PER"}]
-            },
-
-            {"name":"Q.V", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"text":[",", ":"]},
-                {"upos":"VERB"}]
-            },
-
-            {"name":"Q.VP", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"text":[",", ":"]},
-                {"upos":"VERB"},   
-                {"norm_ner":"PER"}]
-            },
-
-            {"name":"Q.VPP", 
-            "pattern":[
-                {"text":"“"},
-                "*",
-                {"text":"”"},
-                {"text":[",", ":"]},
-                {"upos":"VERB"},
-                {"norm_ner":"PER"},
-                {"norm_ner":"PER"}]
-            },
-
-            {"name":"PVQ", 
-            "pattern":[
-                {"norm_ner":"PER"},
-                {"upos":"VERB"},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            },
-
-            {"name":"VQ", 
-            "pattern":[
-                {"upos":"VERB"},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            },
-
-            {"name":"PPVQ",
-            "pattern":[
-                {"norm_ner":"PER"},
-                {"norm_ner":"PER"},
-                {"upos":"VERB"},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            },
-
-            {"name":"V.Q",
-            "pattern":[
-                {"upos":"VERB"},
-                {"text":[",", ":"]},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            },
-
-            {"name":"PV.Q",
-            "pattern":[
-                {"norm_ner":"PER"},
-                {"upos":"VERB"},
-                {"text":[",", ":"]},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            },
-
-            {"name":"PPV.Q", 
-            "pattern":[
-                {"norm_ner":"PER"},
-                {"norm_ner":"PER"},
-                {"upos":"VERB"},
-                {"text":[",", ":"]},
-                {"text":"“"},
-                "*",
-                {"text":"”"}]
-            }
-        ]
+        patterns = import_config_yaml("source_patterns.yaml")["explicit_sources_patterns"]
         
         return patterns
     
