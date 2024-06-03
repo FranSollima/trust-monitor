@@ -23,3 +23,14 @@ El procesamiento de los datos originales se produce con el script `label_studio_
   - `raw/`: Datos procesados para la anotación.
   - `inputs/`: Bloques de 20 noticias generados a partir del corpus procesado previamente para la anotación.
   - `output/`: Anotaciones exportadas desde label studio.
+
+## Estructura de nombres corpus:
+
+corpus_ { medio } _ {categorias} _ {id} _ {estado} .pkl
+\ 
+Estados posibles:
+- 00 - Noticas crudas sin anotaciones.
+- 01 - Noticias anotadas con NLP.
+- 02 - Noticias anotadas con NLP y manualmente.
+- 03 - Noticias anotadas con NLP con Docs eliminados.
+- 04 - Noticias anotadas con NLP y manualmente con Docs eliminados.
