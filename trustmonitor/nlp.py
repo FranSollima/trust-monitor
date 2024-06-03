@@ -5,7 +5,7 @@ import stanza
 from tqdm import tqdm
 from pysentimiento import create_analyzer  # Import pysentimiento
 from .matcher import SourceMatcher
-
+import json
 
 class NLP:
     ### GENERALES ###
@@ -291,11 +291,14 @@ class NLP:
         # article.nlp_annotations.sentiment incluye ahora analisis por oracion
         for article in tqdm(corpus.articles.values()):
             analysis_result = self.pysentimiento.predict(article.cuerpo)
+            article.nlp_annotations.sentiment = {}
             article.nlp_annotations.sentiment['pysentimiento'] = {
                 'label': analysis_result.output,
                 'scores': analysis_result.probas,
                 'sentences': []
             }
+
+
             sentences = article.cuerpo.split('.')
             for sentence in sentences:
                 analysis_result = self.pysentimiento.predict(sentence)
@@ -336,6 +339,10 @@ class NLP:
             article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
             article.nlp_annotations.adjectives[self.libreria] = adjectives
             article.nlp_annotations.sources[self.libreria] = sources
+
+    #stanza and spacy for both
+
+
 
     def _build_frontend_json(self, corpus):
         """
@@ -459,11 +466,10 @@ class NLP:
                     'global_sentiment': global_sentiment,
                     'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label
                 }
-            
-            # Agregar las sources explicitas al front.
-            #article.nlp_annotations.json['sources']
 
-    def _annotate_corpus(self, corpus):
+            article.nlp_annotations.json['sources'] = article.nlp_annotations.sources["stanza"]
+
+    def _annotate_corpus(self, corpus, file_name: str = None):
         
         # pysentimiento        
         if self.libreria != 'pysentimiento':
@@ -481,3 +487,11 @@ class NLP:
 
         # Armar json para front
         self._build_frontend_json(corpus)
+
+        # Save JSON to file if file_name is provided
+        if file_name:
+            with open(file_name, 'w', encoding='utf-8') as f:
+                out_json = []
+                for article in tqdm(corpus.articles.values()):
+                    out_json.append(article.nlp_annotations.json)
+                json.dump(out_json, f, ensure_ascii=False, indent=4)
