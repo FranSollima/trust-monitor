@@ -4,6 +4,8 @@ import spacy
 import stanza
 from tqdm import tqdm
 from pysentimiento import create_analyzer  # Import pysentimiento
+from .matcher import SourceMatcher
+
 
 class NLP:
     ### GENERALES ###
@@ -90,7 +92,10 @@ class NLP:
         raise NotImplementedError("extract_date not implemented")
 
     def extract_sources(self, doc):
-        raise NotImplementedError("extract_sources not implemented")
+        if self.libreria == 'stanza':
+            return self._extract_explicit_sources_stanza(doc)
+        else:
+            return None
 
     def extract_links(self, doc):
         # Usamos re para encontrar links en el texto (aunque no tengan http, pueden comenzar con www.)
@@ -269,6 +274,14 @@ class NLP:
                 else:
                     entity_sentiments[entity.text].append(sentence.sentiment)
         return entity_sentiments
+    
+    def _extract_explicit_sources_stanza(self, doc):
+        
+        matcher = SourceMatcher(debug=False)
+        sources_list = matcher.get_explicit_sources(doc)
+        
+        return sources_list
+        
 
     ## pysentimiento
     def _init_pysentimiento(self):
@@ -310,6 +323,7 @@ class NLP:
             entities = self.extract_entities_v2(doc)
             tokens = self.extract_tokens(doc)
             adjectives = self.extract_adjectives(doc)
+            sources = self.extract_sources(doc)
             
             if self.libreria != 'spacy':
                 entities_sentiment = self.extract_entity_sentiments(doc)
@@ -321,6 +335,7 @@ class NLP:
             article.nlp_annotations.entities[self.libreria] = entities
             article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
             article.nlp_annotations.adjectives[self.libreria] = adjectives
+            article.nlp_annotations.sources[self.libreria] = sources
 
     def _build_frontend_json(self, corpus):
         """
@@ -444,6 +459,9 @@ class NLP:
                     'global_sentiment': global_sentiment,
                     'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label
                 }
+            
+            # Agregar las sources explicitas al front.
+            #article.nlp_annotations.json['sources']
 
     def _annotate_corpus(self, corpus):
         
