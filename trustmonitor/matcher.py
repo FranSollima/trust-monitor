@@ -19,13 +19,17 @@ if logger.hasHandlers():
 configure_logger()
     
 
-def get_patterns(patterns_file):
+# General functions.
+def get_patterns_from_json(patterns_file):
     with open(patterns_file, "r") as f:
         patterns = json.load(f)
         
-    patterns = {d["name"]: d["pattern"] for d in patterns}
+    patterns = preprocess_patterns(patterns)
     
     return patterns
+
+def preprocess_patterns(patterns):
+    return {d["name"]: d["pattern"] for d in patterns}
 
 
 def check_pattern_match(token, pattern):
@@ -230,3 +234,194 @@ class Matcher:
         
         return matches
         
+        
+        
+class SourceMatcher(Matcher):
+    
+    def __init__(self, debug=False):
+        self.patterns = preprocess_patterns(self._set_explicit_patterns())
+        super().__init__(self.patterns, debug)
+        
+        
+    def _set_explicit_patterns(self):
+        
+        patterns = [
+            {"name":"QV", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"upos":"VERB"}]
+            },
+
+            {"name":"QVP", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"upos":"VERB"},
+                {"norm_ner":"PER"}]
+            },
+
+            {"name":"QVPP", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"upos":"VERB"},
+                {"norm_ner":"PER"},
+                {"norm_ner":"PER"}]
+            },
+
+            {"name":"Q.V", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"text":[",", ":"]},
+                {"upos":"VERB"}]
+            },
+
+            {"name":"Q.VP", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"text":[",", ":"]},
+                {"upos":"VERB"},   
+                {"norm_ner":"PER"}]
+            },
+
+            {"name":"Q.VPP", 
+            "pattern":[
+                {"text":"“"},
+                "*",
+                {"text":"”"},
+                {"text":[",", ":"]},
+                {"upos":"VERB"},
+                {"norm_ner":"PER"},
+                {"norm_ner":"PER"}]
+            },
+
+            {"name":"PVQ", 
+            "pattern":[
+                {"norm_ner":"PER"},
+                {"upos":"VERB"},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            },
+
+            {"name":"VQ", 
+            "pattern":[
+                {"upos":"VERB"},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            },
+
+            {"name":"PPVQ",
+            "pattern":[
+                {"norm_ner":"PER"},
+                {"norm_ner":"PER"},
+                {"upos":"VERB"},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            },
+
+            {"name":"V.Q",
+            "pattern":[
+                {"upos":"VERB"},
+                {"text":[",", ":"]},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            },
+
+            {"name":"PV.Q",
+            "pattern":[
+                {"norm_ner":"PER"},
+                {"upos":"VERB"},
+                {"text":[",", ":"]},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            },
+
+            {"name":"PPV.Q", 
+            "pattern":[
+                {"norm_ner":"PER"},
+                {"norm_ner":"PER"},
+                {"upos":"VERB"},
+                {"text":[",", ":"]},
+                {"text":"“"},
+                "*",
+                {"text":"”"}]
+            }
+        ]
+        
+        return patterns
+    
+    def get_explicit_sources(self, stanza_doc): 
+        
+        matches = self.run(stanza_doc)   
+
+        sources_list = []
+
+        for detection in matches:
+            
+            # Texto General.
+            start_char = detection["start_char"]
+            end_char = detection["end_char"]
+            length = detection["length"]
+            pattern = detection["pattern"]
+            text = stanza_doc.text[start_char:end_char]
+            
+            source = {'text':text,
+                    'start_char':start_char,
+                    'end_char':end_char,
+                    'length':length,
+                    'pattern':pattern,
+                    'explicit':True,
+                    'components':{}}
+            
+            # Obtenemos la lista de tokens de la afirmación y del resto para la cita.
+            abs_id_quote = [t["abs_id"] for t in detection["detection"] if t["text"] == '“' or t["text"] == '”']
+            token_list_quote = [t for t in detection["detection"] if t["abs_id"] >= abs_id_quote[0] and t["abs_id"] <= abs_id_quote[1]]
+            token_list_else = [t for t in detection["detection"] if t["abs_id"] < abs_id_quote[0] or t["abs_id"] > abs_id_quote[1]]
+            
+            # Afirmación.
+            start_char = token_list_quote[0]["start_char"]
+            end_char = token_list_quote[-1]["end_char"]
+            text = stanza_doc.text[start_char:end_char]
+            label = "Afirmacion"
+            
+            source['components']['afirmacion'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            # Conector.
+            # Asume 1 solo conector.
+            # Asume que siempre tiene que haber conector
+            token_conector = [t for t in token_list_else if t["upos"] == "VERB"][0]
+            start_char = token_conector["start_char"]
+            end_char = token_conector["end_char"]
+            text = stanza_doc.text[start_char:end_char]
+            label = "Conector"
+            
+            source['components']['conector'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            # Conector.
+            # Asume persona en orden consecutivo.
+            # Puede no encontrar un referenciado.
+            token_src = [t for t in token_list_else if t["norm_ner"] == "PER"]
+            if len(token_src) > 0:
+                start_char = token_src[0]["start_char"]
+                end_char = token_src[-1]["end_char"]
+                text = stanza_doc.text[start_char:end_char]
+                label = "Referenciado"
+                
+                source['components']['referenciado'] = {'text':text, 'start_char':start_char, 'end_char':end_char, 'label':label}
+            
+            sources_list.append(source)
+        
+        return sources_list
