@@ -250,7 +250,9 @@ class NLP:
                             adjective_features[key] = value
                     adjectives.append({
                         'text': adejctive_text,
-                        'features': adjective_features
+                        'features': adjective_features,
+                        'start_char': word.start_char,
+                        'end_char': word.end_char
                     })
         return adjectives
 
