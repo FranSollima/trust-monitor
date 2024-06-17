@@ -117,7 +117,6 @@ class Matcher:
                     start_index = token["abs_id"]
 
                     logger.debug(f"Deteccion token entrada {token['abs_id']} - {token['text']}")
-                    logger.debug(f"Se evalua el prox token  {doc_tokens[start_index + 1]['abs_id']} - {doc_tokens[start_index + 1]['text']}")
                                     
                     i = 1
                     
