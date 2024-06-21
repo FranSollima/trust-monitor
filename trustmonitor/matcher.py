@@ -134,14 +134,16 @@ class Matcher:
                             # Ir avanzando en el índice de tokens
                             if p == "*":
                                 logger.debug("Entra en *")
+                                
                                 while not check_pattern_match(doc_tokens[start_index + i], pattern[j+1]):
                                     logger.debug(f"Evalua el próximo token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
                                     detection.append(doc_tokens[start_index + i])
                                     detection_check.append(True)
                                     i += 1
-                                    if i == len(doc_tokens):
+                                    
+                                    if (start_index + i) == len(doc_tokens):
                                         break
-                                
+                            
                                 i -= 1
                                 logger.debug(f"FIN Next token {doc_tokens[start_index + i]['abs_id']} -  {doc_tokens[start_index + i]['text']} pattern {pattern[j+1]}")
                             #     while                  
@@ -188,7 +190,7 @@ class Matcher:
                 else:
                     continue
         
-        logger.info([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
+        #logger.info([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
         
         return matches
 
@@ -196,8 +198,8 @@ class Matcher:
         
         drops = []
         
-        print("Initial Matches")
-        print([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
+        #print("Initial Matches")
+        #print([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
 
         for i, match in enumerate(matches):
             start = match["start_char"]
@@ -221,8 +223,8 @@ class Matcher:
             
         matches = [m for i, m in enumerate(matches) if drops[i] == 0]
 
-        print("Final Matches")
-        print([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
+        #print("Final Matches")
+        #print([(d["pattern"], d["start_char"], d["end_char"]) for d in matches])
         
         return matches
     
