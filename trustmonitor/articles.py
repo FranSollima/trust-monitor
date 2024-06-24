@@ -203,8 +203,31 @@ class ArticlesCorpus():
         articles_dict = []
 
         for art in self.get_articles():
-            articles_dict.append({k:v for k,v in art.get_article_dict().items() if k not in ['nlp_annotations', 'manual_annotations']})   
-                    
+            art_keys_dict = {k:v for k,v in art.get_article_dict().items() if k not in ['nlp_annotations', 'manual_annotations']}
+  
+            
+            if 'nlp_annotations' in art.get_article_dict():
+                nlp_annotations = art.get_article_dict()['nlp_annotations']
+                art_keys_dict['nlp_annotations'] = {}
+                art_keys_dict['nlp_annotations']['entities'] = nlp_annotations.entities
+                art_keys_dict['nlp_annotations']['entities_sentiment'] = nlp_annotations.entities_sentiment
+                art_keys_dict['nlp_annotations']['sentiment'] = nlp_annotations.sentiment
+                art_keys_dict['nlp_annotations']['adjectives'] = nlp_annotations.adjectives
+                art_keys_dict['nlp_annotations']['sources'] = nlp_annotations.sources
+                art_keys_dict['nlp_annotations']['dates'] = nlp_annotations.dates
+
+            if 'manual_annotations' in art.get_article_dict():
+                manual_annotations = art.get_article_dict()['manual_annotations']
+                art_keys_dict['manual_annotations'] = {}
+                art_keys_dict['manual_annotations']['entities'] = manual_annotations.entities
+                art_keys_dict['manual_annotations']['entities_sentiment'] = manual_annotations.entities_sentiment
+                art_keys_dict['manual_annotations']['sentiment'] = manual_annotations.sentiment
+                art_keys_dict['manual_annotations']['adjectives'] = manual_annotations.adjectives
+                art_keys_dict['manual_annotations']['sources'] = manual_annotations.sources
+                art_keys_dict['manual_annotations']['dates'] = manual_annotations.dates               
+
+            articles_dict.append(art_keys_dict) 
+
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(articles_dict, f, ensure_ascii=False, indent=4)
         
