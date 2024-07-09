@@ -341,10 +341,25 @@ class NLP:
             article.nlp_annotations.entities_sentiment[self.libreria] = entities_sentiment
             article.nlp_annotations.adjectives[self.libreria] = adjectives
             article.nlp_annotations.sources[self.libreria] = sources
+            
 
     #stanza and spacy for both
 
-
+    def calculate_corpus_metrics(self, corpus):
+        
+        for article in tqdm(corpus.get_articles(), desc="Calculating corpus metrics"):
+            
+            if self.libreria == 'stanza':
+                article.add_metric(category='general', key='num_words', value=article.nlp_annotations.doc["stanza"].num_words, reference=None, full_name='Cantidad de palabras')
+                article.add_metric(category='general', key='num_sentences', value=len(article.nlp_annotations.doc["stanza"].sentences), reference=None, full_name='Cantidad de oraciones')
+             
+            elif self.libreria == 'pysentimiento':
+                # AGREGAR MÉTRICAS DE SENTIMIENTO GENERAL.
+                pass
+                
+            else:
+                pass
+    
 
     def _build_frontend_json(self, corpus):
         """
@@ -470,7 +485,9 @@ class NLP:
                 }
 
             article.nlp_annotations.json['sources'] = article.nlp_annotations.sources["stanza"]
-
+            
+            article.nlp_annotations.json['metrics'] = article.nlp_annotations.metrics
+            
     def _annotate_corpus(self, corpus, file_name: str = None):
         
         # pysentimiento        
@@ -478,14 +495,17 @@ class NLP:
             self._init_pysentimiento()
         
         self._extract_corpus_sentiment(corpus)
+        self.calculate_corpus_metrics(corpus)
 
         # stanza
         self._init_stanza()
         self.analyze_corpus_cuerpo(corpus)
+        self.calculate_corpus_metrics(corpus)
 
         # spacy
         self._init_spacy()
         self.analyze_corpus_cuerpo(corpus)
+        self.calculate_corpus_metrics(corpus)
 
         # Armar json para front
         self._build_frontend_json(corpus)
