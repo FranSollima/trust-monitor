@@ -109,9 +109,11 @@ df = corpus.get_catalog().query("seccion.str.contains('Política') | seccion.str
 
 corpus2 = corpus.filter_by_catalog(df, to_corpus=True)
 corpus2.reset_index()
-corpus2.export_articles(f"{ROOT}/label_studio/data/raw/data_noticias_lavoz_politica_negocios.json")
+corpus2.to_json(f"{ROOT}/label_studio/data/raw/data_noticias_lavoz_politica_negocios.json", include_annotations=False)
+#corpus2.export_articles(f"{ROOT}/label_studio/data/raw/data_noticias_lavoz_politica_negocios.json")
 
-corpus2.save_corpus(f"{ROOT}/label_studio/data/raw/corpus_lavoz_politica_negocios.pkl")
+corpus2.to_pickle(f"{ROOT}/label_studio/data/raw/corpus_lavoz_politica_negocios.pkl")
+#corpus2.save_corpus(f"{ROOT}/label_studio/data/raw/corpus_lavoz_politica_negocios.pkl")
 
 n_blocks = 10
 n_news_per_block = 20
@@ -122,4 +124,4 @@ for i in range(n_blocks):
     index_range = np.arange(s, e)
     
     corpus_to_export = corpus2.filter_by_index(index_range, to_corpus=True)
-    corpus_to_export.export_articles(f'{ROOT}/label_studio/data/inputs/data_noticias_lavoz_{s}_{e-1}.json')
+    corpus_to_export.export_articles(f'{ROOT}/label_studio/data/inputs/data_noticias_lavoz_{s}_{e-1}.json', include_annotations=False)
