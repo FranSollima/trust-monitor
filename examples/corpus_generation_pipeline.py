@@ -38,7 +38,7 @@ corpus_001.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_001_01.json')
 # Exportamos el corpus filtrado con anotaciones automáticas y métricas - 01.
 corpus_002 = corpus_001.filter_by_index([27, 57, 80, 89, 112], to_corpus=True)
 corpus_002.reset_index()
-corpus_002.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_002_00.json')
+corpus_002.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_002_01.json')
 
 
 
@@ -57,4 +57,4 @@ corpus_001.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_001_02.json')
 # Exportamos el corpus filtrado con anotaciones automáticas y manuales - 02.
 corpus_002 = corpus_001.filter_by_index([27, 57, 80, 89, 112], to_corpus=True)
 corpus_002.reset_index()
-corpus_002.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_002_00.json')
+corpus_002.to_json(f'{ROOT}/data/json_files/corpus_lavoz_pn_002_02.json')
