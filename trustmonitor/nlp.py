@@ -347,19 +347,25 @@ class NLP:
 
     def calculate_corpus_metrics(self, corpus):
         
+        print('calculate_corpus_metrics')
         for article in tqdm(corpus.get_articles(), desc="Calculating corpus metrics"):
             
-            if self.libreria == 'stanza':
-                article.add_metric(category='general', key='num_words', value=article.nlp_annotations.doc["stanza"].num_words, reference=None, full_name='Cantidad de palabras')
-                article.add_metric(category='general', key='num_sentences', value=len(article.nlp_annotations.doc["stanza"].sentences), reference=None, full_name='Cantidad de oraciones')
-             
-            elif self.libreria == 'pysentimiento':
-                # AGREGAR MÉTRICAS DE SENTIMIENTO GENERAL.
-                pass
+            if 'stanza' in article.nlp_annotations.doc:
+                article.add_metric(category='general', key='num_words', value=article.nlp_annotations.doc["stanza"].num_words, reference=500, full_name='Cantidad de palabras')
+                article.add_metric(category='general', key='num_sentences', value=len(article.nlp_annotations.doc["stanza"].sentences), reference=30, full_name='Cantidad de oraciones')            
+                adjectives_rate = len(article.nlp_annotations.adjectives) /article.nlp_annotations.doc["stanza"].num_words
+                article.add_metric(category='general',key='perc_adjectives', value= adjectives_rate*100,reference=0.07*100, full_name='Porcentaje de adjetivos en el texto')
+
+            if 'pysentimiento' in article.nlp_annotations.sentiment.keys():
+                article.add_metric(category='general',key='sentimiento_global_negativo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEG'],reference=0.33, full_name='Sentimiento global positivo')    
+                article.add_metric(category='general',key='sentimiento_global_neutro', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEU'],reference=0.33, full_name='Sentimiento global positivo')    
+                article.add_metric(category='general',key='sentimiento_global_positivo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['POS'],reference=0.33, full_name='Sentimiento global positivo')    
                 
-            else:
-                pass
-    
+            # todo add max and min sentimiento
+            # todo add more metrics. 
+
+            article.add_metric(category='general',key='cantidad_de_fuentes', value= len(article.nlp_annotations.sources['stanza']),reference=2, full_name='Cantidad de fuentes identificadas')    
+                
 
     def _build_frontend_json(self, corpus):
         """

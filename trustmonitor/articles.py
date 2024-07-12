@@ -308,7 +308,7 @@ class ArticlesCorpus():
                     art_keys_dict['nlp_annotations']['sentiment'] = nlp_annotations.sentiment
                     art_keys_dict['nlp_annotations']['adjectives'] = nlp_annotations.adjectives
                     art_keys_dict['nlp_annotations']['sources'] = nlp_annotations.sources
-                    #art_keys_dict['nlp_annotations']['dates'] = nlp_annotations.dates
+                    art_keys_dict['nlp_annotations']['metrics'] = nlp_annotations.metrics
 
                 if 'manual_annotations' in art.get_article_dict():
                     manual_annotations = art.get_article_dict()['manual_annotations']
