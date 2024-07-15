@@ -6,6 +6,7 @@ from tqdm import tqdm
 from pysentimiento import create_analyzer  # Import pysentimiento
 from .matcher import SourceMatcher
 import json
+import pandas as pd
 
 class NLP:
     ### GENERALES ###
@@ -346,25 +347,56 @@ class NLP:
     #stanza and spacy for both
 
     def calculate_corpus_metrics(self, corpus):
+        """
+        Possible metrics categories: general, entities, adjectives, sentiment, sources
+        """
         
-        print('calculate_corpus_metrics')
         for article in tqdm(corpus.get_articles(), desc="Calculating corpus metrics"):
+            
+            article.add_metric(category='general', key='num_chars', value=len(article.cuerpo), reference=1000, full_name='Cantidad de caracteres del cuerpo')
+            article.add_metric(category='general', key='num_chars_title', value=len(article.titulo), reference=30, full_name='Cantidad de caracteres del título')
             
             if 'stanza' in article.nlp_annotations.doc:
                 article.add_metric(category='general', key='num_words', value=article.nlp_annotations.doc["stanza"].num_words, reference=500, full_name='Cantidad de palabras')
                 article.add_metric(category='general', key='num_sentences', value=len(article.nlp_annotations.doc["stanza"].sentences), reference=30, full_name='Cantidad de oraciones')            
                 adjectives_rate = len(article.nlp_annotations.adjectives) /article.nlp_annotations.doc["stanza"].num_words
-                article.add_metric(category='general',key='perc_adjectives', value= adjectives_rate*100,reference=0.07*100, full_name='Porcentaje de adjetivos en el texto')
+                article.add_metric(category='adjectives',key='perc_adjectives', value= adjectives_rate*100,reference=0.07*100, full_name='Porcentaje de adjetivos en el texto')
 
-            if 'pysentimiento' in article.nlp_annotations.sentiment.keys():
-                article.add_metric(category='general',key='sentimiento_global_negativo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEG'],reference=0.33, full_name='Sentimiento global positivo')    
-                article.add_metric(category='general',key='sentimiento_global_neutro', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEU'],reference=0.33, full_name='Sentimiento global positivo')    
-                article.add_metric(category='general',key='sentimiento_global_positivo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['POS'],reference=0.33, full_name='Sentimiento global positivo')    
+            if 'pysentimiento' in article.nlp_annotations.sentiment:
+                article.add_metric(category='sentiment',key='sentimiento_global_negativo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEG'],reference=0.33, full_name='Sentimiento global positivo')    
+                article.add_metric(category='sentiment',key='sentimiento_global_neutro', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['NEU'],reference=0.33, full_name='Sentimiento global positivo')    
+                article.add_metric(category='sentiment',key='sentimiento_global_positivo', value= article.nlp_annotations.sentiment['pysentimiento']['scores']['POS'],reference=0.33, full_name='Sentimiento global positivo')    
                 
             # todo add max and min sentimiento
             # todo add more metrics. 
+            
+            if 'stanza' in article.nlp_annotations.entities:
+                pass
 
-            article.add_metric(category='general',key='cantidad_de_fuentes', value= len(article.nlp_annotations.sources['stanza']),reference=2, full_name='Cantidad de fuentes identificadas')    
+            if 'stanza' in article.nlp_annotations.adjectives:
+                article.add_metric(category='adjectives', key='num_adjectives', value=len(article.nlp_annotations.adjectives), reference=None, full_name='Cantidad de adjetivos en el texto')
+            
+            if 'stanza' in article.nlp_annotations.entities:
+                article.add_metric(category='entities',key='cantidad_de_entidades', value= len(article.nlp_annotations.entities['stanza']),reference=2, full_name='Cantidad de entidades identificadas')
+
+            if 'stanza' in article.nlp_annotations.sources:
+                article.add_metric(category='sources',key='num_afirmaciones', value= len(article.nlp_annotations.sources['stanza']), reference=2, full_name='Cantidad de citas identificadas')    
+                article.add_metric(category='sources',key='num_afirmaciones_explicitas', value= len([s for s in article.nlp_annotations.sources["stanza"] if s["explicit"]]), reference=2, full_name='Cantidad de citas explícitas')
+                article.add_metric(category='sources',key='num_referenciados', value= len([s for s in article.nlp_annotations.sources["stanza"] if 'referenciado' in s["components"]]), reference=2, full_name='Cantidad de Referenciados')    
+                num_referenciados_unique = len(set([s["components"]["referenciado"]["text"] for s in article.nlp_annotations.sources["stanza"] if 'referenciado' in s["components"]]))
+                article.add_metric(category='sources', key='num_referenciados_unique', value=num_referenciados_unique, reference=2, full_name='Cantidad de Referenciados Únicos')    
+                article.add_metric(category='sources',key='num_conectores', value=len([s for s in article.nlp_annotations.sources["stanza"] if 'conector' in s["components"]]), reference=2, full_name='Cantidad de Conectores')
+                num_conectores_unique = len(set([s["components"]["conector"]["text"] for s in article.nlp_annotations.sources["stanza"] if 'conector' in s["components"]]))
+                article.add_metric(category='sources',key='num_conectores_unique', value=num_conectores_unique, reference=2, full_name='Cantidad de Conectores Únicos')    
+              
+            # metrics_df[article.index] = {}  
+            # metrics = [d for x in article.nlp_annotations.metrics.values() for d in x.values()]
+            
+            # for metric in metrics:
+            #     metrics_df[article.index][metric['name']] = metric['value']
+        corpus._add_metrics_to_catalog()
+
+        
                 
 
     def _build_frontend_json(self, corpus):
