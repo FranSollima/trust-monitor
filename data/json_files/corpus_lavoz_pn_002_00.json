@@ -13,31 +13,11 @@
         "medio": "lavoz",
         "index": 0,
         "nlp_annotations": {
-            "entities": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "entities_sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "adjectives": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sources": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
+            "entities": {},
+            "entities_sentiment": {},
+            "sentiment": {},
+            "adjectives": {},
+            "sources": {},
             "json": null,
             "metrics": {
                 "general": {},
@@ -69,31 +49,11 @@
         "medio": "lavoz",
         "index": 1,
         "nlp_annotations": {
-            "entities": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "entities_sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "adjectives": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sources": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
+            "entities": {},
+            "entities_sentiment": {},
+            "sentiment": {},
+            "adjectives": {},
+            "sources": {},
             "json": null,
             "metrics": {
                 "general": {},
@@ -125,31 +85,11 @@
         "medio": "lavoz",
         "index": 2,
         "nlp_annotations": {
-            "entities": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "entities_sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "adjectives": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sources": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
+            "entities": {},
+            "entities_sentiment": {},
+            "sentiment": {},
+            "adjectives": {},
+            "sources": {},
             "json": null,
             "metrics": {
                 "general": {},
@@ -181,31 +121,11 @@
         "medio": "lavoz",
         "index": 3,
         "nlp_annotations": {
-            "entities": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "entities_sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "adjectives": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sources": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
+            "entities": {},
+            "entities_sentiment": {},
+            "sentiment": {},
+            "adjectives": {},
+            "sources": {},
             "json": null,
             "metrics": {
                 "general": {},
@@ -237,31 +157,11 @@
         "medio": "lavoz",
         "index": 4,
         "nlp_annotations": {
-            "entities": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "entities_sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sentiment": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "adjectives": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
-            "sources": {
-                "stanza": null,
-                "spacy": null,
-                "pysentimiento": null
-            },
+            "entities": {},
+            "entities_sentiment": {},
+            "sentiment": {},
+            "adjectives": {},
+            "sources": {},
             "json": null,
             "metrics": {
                 "general": {},

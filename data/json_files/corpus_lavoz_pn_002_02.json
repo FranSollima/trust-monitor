@@ -423,8 +423,7 @@
                         "start_char": 2336,
                         "end_char": 2363
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "entities_sentiment": {
                 "stanza": {
@@ -472,8 +471,7 @@
                         2
                     ]
                 },
-                "spacy": [],
-                "pysentimiento": null
+                "spacy": []
             },
             "sentiment": {
                 "pysentimiento": {
@@ -1074,8 +1072,7 @@
                             "Number": "Sing"
                         }
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "sources": {
                 "stanza": [
@@ -1258,8 +1255,7 @@
                         }
                     }
                 ],
-                "spacy": null,
-                "pysentimiento": null
+                "spacy": null
             },
             "json": {
                 "entities": {
@@ -1972,44 +1968,220 @@
                 ],
                 "metrics": {
                     "general": {
+                        "num_chars": {
+                            "name": "num_chars",
+                            "value": 2396,
+                            "reference": 1000,
+                            "full_name": "Cantidad de caracteres del cuerpo"
+                        },
+                        "num_chars_title": {
+                            "name": "num_chars_title",
+                            "value": 97,
+                            "reference": 30,
+                            "full_name": "Cantidad de caracteres del título"
+                        },
                         "num_words": {
                             "name": "num_words",
                             "value": 477,
-                            "reference": null,
+                            "reference": 500,
                             "full_name": "Cantidad de palabras"
                         },
                         "num_sentences": {
                             "name": "num_sentences",
                             "value": 21,
-                            "reference": null,
+                            "reference": 30,
                             "full_name": "Cantidad de oraciones"
                         }
                     },
-                    "entities": {},
-                    "sentiment": {},
-                    "adjectives": {},
-                    "sources": {}
+                    "entities": {
+                        "cantidad_de_entidades": {
+                            "name": "cantidad_de_entidades",
+                            "value": 21,
+                            "reference": 2,
+                            "full_name": "Cantidad de entidades identificadas"
+                        }
+                    },
+                    "sentiment": {
+                        "sentimiento_global_negativo": {
+                            "name": "sentimiento_global_negativo",
+                            "value": 0.6973123550415039,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_neutro": {
+                            "name": "sentimiento_global_neutro",
+                            "value": 0.27343764901161194,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_positivo": {
+                            "name": "sentimiento_global_positivo",
+                            "value": 0.02925003319978714,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        }
+                    },
+                    "adjectives": {
+                        "perc_adjectives": {
+                            "name": "perc_adjectives",
+                            "value": 0.41928721174004197,
+                            "reference": 7.000000000000001,
+                            "full_name": "Porcentaje de adjetivos en el texto"
+                        },
+                        "num_adjectives": {
+                            "name": "num_adjectives",
+                            "value": 2,
+                            "reference": null,
+                            "full_name": "Cantidad de adjetivos en el texto"
+                        }
+                    },
+                    "sources": {
+                        "num_afirmaciones": {
+                            "name": "num_afirmaciones",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas identificadas"
+                        },
+                        "num_afirmaciones_explicitas": {
+                            "name": "num_afirmaciones_explicitas",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas explícitas"
+                        },
+                        "num_referenciados": {
+                            "name": "num_referenciados",
+                            "value": 4,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados"
+                        },
+                        "num_referenciados_unique": {
+                            "name": "num_referenciados_unique",
+                            "value": 1,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados Únicos"
+                        },
+                        "num_conectores": {
+                            "name": "num_conectores",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores"
+                        },
+                        "num_conectores_unique": {
+                            "name": "num_conectores_unique",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores Únicos"
+                        }
+                    }
                 }
             },
             "metrics": {
                 "general": {
+                    "num_chars": {
+                        "name": "num_chars",
+                        "value": 2396,
+                        "reference": 1000,
+                        "full_name": "Cantidad de caracteres del cuerpo"
+                    },
+                    "num_chars_title": {
+                        "name": "num_chars_title",
+                        "value": 97,
+                        "reference": 30,
+                        "full_name": "Cantidad de caracteres del título"
+                    },
                     "num_words": {
                         "name": "num_words",
                         "value": 477,
-                        "reference": null,
+                        "reference": 500,
                         "full_name": "Cantidad de palabras"
                     },
                     "num_sentences": {
                         "name": "num_sentences",
                         "value": 21,
-                        "reference": null,
+                        "reference": 30,
                         "full_name": "Cantidad de oraciones"
                     }
                 },
-                "entities": {},
-                "sentiment": {},
-                "adjectives": {},
-                "sources": {}
+                "entities": {
+                    "cantidad_de_entidades": {
+                        "name": "cantidad_de_entidades",
+                        "value": 21,
+                        "reference": 2,
+                        "full_name": "Cantidad de entidades identificadas"
+                    }
+                },
+                "sentiment": {
+                    "sentimiento_global_negativo": {
+                        "name": "sentimiento_global_negativo",
+                        "value": 0.6973123550415039,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_neutro": {
+                        "name": "sentimiento_global_neutro",
+                        "value": 0.27343764901161194,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_positivo": {
+                        "name": "sentimiento_global_positivo",
+                        "value": 0.02925003319978714,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    }
+                },
+                "adjectives": {
+                    "perc_adjectives": {
+                        "name": "perc_adjectives",
+                        "value": 0.41928721174004197,
+                        "reference": 7.000000000000001,
+                        "full_name": "Porcentaje de adjetivos en el texto"
+                    },
+                    "num_adjectives": {
+                        "name": "num_adjectives",
+                        "value": 2,
+                        "reference": null,
+                        "full_name": "Cantidad de adjetivos en el texto"
+                    }
+                },
+                "sources": {
+                    "num_afirmaciones": {
+                        "name": "num_afirmaciones",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas identificadas"
+                    },
+                    "num_afirmaciones_explicitas": {
+                        "name": "num_afirmaciones_explicitas",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas explícitas"
+                    },
+                    "num_referenciados": {
+                        "name": "num_referenciados",
+                        "value": 4,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados"
+                    },
+                    "num_referenciados_unique": {
+                        "name": "num_referenciados_unique",
+                        "value": 1,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados Únicos"
+                    },
+                    "num_conectores": {
+                        "name": "num_conectores",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores"
+                    },
+                    "num_conectores_unique": {
+                        "name": "num_conectores_unique",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores Únicos"
+                    }
+                }
             }
         },
         "manual_annotations": {
@@ -3140,8 +3312,7 @@
                         "start_char": 5571,
                         "end_char": 5578
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "entities_sentiment": {
                 "stanza": {
@@ -3252,8 +3423,7 @@
                         2
                     ]
                 },
-                "spacy": [],
-                "pysentimiento": null
+                "spacy": []
             },
             "sentiment": {
                 "pysentimiento": {
@@ -4900,8 +5070,7 @@
                             "Number": "Sing"
                         }
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "sources": {
                 "stanza": [
@@ -4978,8 +5147,7 @@
                         }
                     }
                 ],
-                "spacy": null,
-                "pysentimiento": null
+                "spacy": null
             },
             "json": {
                 "entities": {
@@ -6533,44 +6701,220 @@
                 ],
                 "metrics": {
                     "general": {
+                        "num_chars": {
+                            "name": "num_chars",
+                            "value": 5580,
+                            "reference": 1000,
+                            "full_name": "Cantidad de caracteres del cuerpo"
+                        },
+                        "num_chars_title": {
+                            "name": "num_chars_title",
+                            "value": 97,
+                            "reference": 30,
+                            "full_name": "Cantidad de caracteres del título"
+                        },
                         "num_words": {
                             "name": "num_words",
                             "value": 1070,
-                            "reference": null,
+                            "reference": 500,
                             "full_name": "Cantidad de palabras"
                         },
                         "num_sentences": {
                             "name": "num_sentences",
                             "value": 35,
-                            "reference": null,
+                            "reference": 30,
                             "full_name": "Cantidad de oraciones"
                         }
                     },
-                    "entities": {},
-                    "sentiment": {},
-                    "adjectives": {},
-                    "sources": {}
+                    "entities": {
+                        "cantidad_de_entidades": {
+                            "name": "cantidad_de_entidades",
+                            "value": 46,
+                            "reference": 2,
+                            "full_name": "Cantidad de entidades identificadas"
+                        }
+                    },
+                    "sentiment": {
+                        "sentimiento_global_negativo": {
+                            "name": "sentimiento_global_negativo",
+                            "value": 0.5617350339889526,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_neutro": {
+                            "name": "sentimiento_global_neutro",
+                            "value": 0.41692379117012024,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_positivo": {
+                            "name": "sentimiento_global_positivo",
+                            "value": 0.021341154351830482,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        }
+                    },
+                    "adjectives": {
+                        "perc_adjectives": {
+                            "name": "perc_adjectives",
+                            "value": 0.1869158878504673,
+                            "reference": 7.000000000000001,
+                            "full_name": "Porcentaje de adjetivos en el texto"
+                        },
+                        "num_adjectives": {
+                            "name": "num_adjectives",
+                            "value": 2,
+                            "reference": null,
+                            "full_name": "Cantidad de adjetivos en el texto"
+                        }
+                    },
+                    "sources": {
+                        "num_afirmaciones": {
+                            "name": "num_afirmaciones",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas identificadas"
+                        },
+                        "num_afirmaciones_explicitas": {
+                            "name": "num_afirmaciones_explicitas",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas explícitas"
+                        },
+                        "num_referenciados": {
+                            "name": "num_referenciados",
+                            "value": 1,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados"
+                        },
+                        "num_referenciados_unique": {
+                            "name": "num_referenciados_unique",
+                            "value": 1,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados Únicos"
+                        },
+                        "num_conectores": {
+                            "name": "num_conectores",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores"
+                        },
+                        "num_conectores_unique": {
+                            "name": "num_conectores_unique",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores Únicos"
+                        }
+                    }
                 }
             },
             "metrics": {
                 "general": {
+                    "num_chars": {
+                        "name": "num_chars",
+                        "value": 5580,
+                        "reference": 1000,
+                        "full_name": "Cantidad de caracteres del cuerpo"
+                    },
+                    "num_chars_title": {
+                        "name": "num_chars_title",
+                        "value": 97,
+                        "reference": 30,
+                        "full_name": "Cantidad de caracteres del título"
+                    },
                     "num_words": {
                         "name": "num_words",
                         "value": 1070,
-                        "reference": null,
+                        "reference": 500,
                         "full_name": "Cantidad de palabras"
                     },
                     "num_sentences": {
                         "name": "num_sentences",
                         "value": 35,
-                        "reference": null,
+                        "reference": 30,
                         "full_name": "Cantidad de oraciones"
                     }
                 },
-                "entities": {},
-                "sentiment": {},
-                "adjectives": {},
-                "sources": {}
+                "entities": {
+                    "cantidad_de_entidades": {
+                        "name": "cantidad_de_entidades",
+                        "value": 46,
+                        "reference": 2,
+                        "full_name": "Cantidad de entidades identificadas"
+                    }
+                },
+                "sentiment": {
+                    "sentimiento_global_negativo": {
+                        "name": "sentimiento_global_negativo",
+                        "value": 0.5617350339889526,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_neutro": {
+                        "name": "sentimiento_global_neutro",
+                        "value": 0.41692379117012024,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_positivo": {
+                        "name": "sentimiento_global_positivo",
+                        "value": 0.021341154351830482,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    }
+                },
+                "adjectives": {
+                    "perc_adjectives": {
+                        "name": "perc_adjectives",
+                        "value": 0.1869158878504673,
+                        "reference": 7.000000000000001,
+                        "full_name": "Porcentaje de adjetivos en el texto"
+                    },
+                    "num_adjectives": {
+                        "name": "num_adjectives",
+                        "value": 2,
+                        "reference": null,
+                        "full_name": "Cantidad de adjetivos en el texto"
+                    }
+                },
+                "sources": {
+                    "num_afirmaciones": {
+                        "name": "num_afirmaciones",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas identificadas"
+                    },
+                    "num_afirmaciones_explicitas": {
+                        "name": "num_afirmaciones_explicitas",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas explícitas"
+                    },
+                    "num_referenciados": {
+                        "name": "num_referenciados",
+                        "value": 1,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados"
+                    },
+                    "num_referenciados_unique": {
+                        "name": "num_referenciados_unique",
+                        "value": 1,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados Únicos"
+                    },
+                    "num_conectores": {
+                        "name": "num_conectores",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores"
+                    },
+                    "num_conectores_unique": {
+                        "name": "num_conectores_unique",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores Únicos"
+                    }
+                }
             }
         },
         "manual_annotations": {
@@ -8106,8 +8450,7 @@
                         "start_char": 4448,
                         "end_char": 4451
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "entities_sentiment": {
                 "stanza": {
@@ -8321,8 +8664,7 @@
                         2
                     ]
                 },
-                "spacy": [],
-                "pysentimiento": null
+                "spacy": []
             },
             "sentiment": {
                 "pysentimiento": {
@@ -9170,8 +9512,7 @@
                             "VerbForm": "Part"
                         }
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "sources": {
                 "stanza": [
@@ -9308,8 +9649,7 @@
                         }
                     }
                 ],
-                "spacy": null,
-                "pysentimiento": null
+                "spacy": null
             },
             "json": {
                 "entities": {
@@ -10884,44 +11224,220 @@
                 ],
                 "metrics": {
                     "general": {
+                        "num_chars": {
+                            "name": "num_chars",
+                            "value": 4634,
+                            "reference": 1000,
+                            "full_name": "Cantidad de caracteres del cuerpo"
+                        },
+                        "num_chars_title": {
+                            "name": "num_chars_title",
+                            "value": 99,
+                            "reference": 30,
+                            "full_name": "Cantidad de caracteres del título"
+                        },
                         "num_words": {
                             "name": "num_words",
                             "value": 906,
-                            "reference": null,
+                            "reference": 500,
                             "full_name": "Cantidad de palabras"
                         },
                         "num_sentences": {
                             "name": "num_sentences",
                             "value": 28,
-                            "reference": null,
+                            "reference": 30,
                             "full_name": "Cantidad de oraciones"
                         }
                     },
-                    "entities": {},
-                    "sentiment": {},
-                    "adjectives": {},
-                    "sources": {}
+                    "entities": {
+                        "cantidad_de_entidades": {
+                            "name": "cantidad_de_entidades",
+                            "value": 79,
+                            "reference": 2,
+                            "full_name": "Cantidad de entidades identificadas"
+                        }
+                    },
+                    "sentiment": {
+                        "sentimiento_global_negativo": {
+                            "name": "sentimiento_global_negativo",
+                            "value": 0.5666032433509827,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_neutro": {
+                            "name": "sentimiento_global_neutro",
+                            "value": 0.4075116515159607,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_positivo": {
+                            "name": "sentimiento_global_positivo",
+                            "value": 0.025885123759508133,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        }
+                    },
+                    "adjectives": {
+                        "perc_adjectives": {
+                            "name": "perc_adjectives",
+                            "value": 0.22075055187637968,
+                            "reference": 7.000000000000001,
+                            "full_name": "Porcentaje de adjetivos en el texto"
+                        },
+                        "num_adjectives": {
+                            "name": "num_adjectives",
+                            "value": 2,
+                            "reference": null,
+                            "full_name": "Cantidad de adjetivos en el texto"
+                        }
+                    },
+                    "sources": {
+                        "num_afirmaciones": {
+                            "name": "num_afirmaciones",
+                            "value": 6,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas identificadas"
+                        },
+                        "num_afirmaciones_explicitas": {
+                            "name": "num_afirmaciones_explicitas",
+                            "value": 6,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas explícitas"
+                        },
+                        "num_referenciados": {
+                            "name": "num_referenciados",
+                            "value": 0,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados"
+                        },
+                        "num_referenciados_unique": {
+                            "name": "num_referenciados_unique",
+                            "value": 0,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados Únicos"
+                        },
+                        "num_conectores": {
+                            "name": "num_conectores",
+                            "value": 6,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores"
+                        },
+                        "num_conectores_unique": {
+                            "name": "num_conectores_unique",
+                            "value": 6,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores Únicos"
+                        }
+                    }
                 }
             },
             "metrics": {
                 "general": {
+                    "num_chars": {
+                        "name": "num_chars",
+                        "value": 4634,
+                        "reference": 1000,
+                        "full_name": "Cantidad de caracteres del cuerpo"
+                    },
+                    "num_chars_title": {
+                        "name": "num_chars_title",
+                        "value": 99,
+                        "reference": 30,
+                        "full_name": "Cantidad de caracteres del título"
+                    },
                     "num_words": {
                         "name": "num_words",
                         "value": 906,
-                        "reference": null,
+                        "reference": 500,
                         "full_name": "Cantidad de palabras"
                     },
                     "num_sentences": {
                         "name": "num_sentences",
                         "value": 28,
-                        "reference": null,
+                        "reference": 30,
                         "full_name": "Cantidad de oraciones"
                     }
                 },
-                "entities": {},
-                "sentiment": {},
-                "adjectives": {},
-                "sources": {}
+                "entities": {
+                    "cantidad_de_entidades": {
+                        "name": "cantidad_de_entidades",
+                        "value": 79,
+                        "reference": 2,
+                        "full_name": "Cantidad de entidades identificadas"
+                    }
+                },
+                "sentiment": {
+                    "sentimiento_global_negativo": {
+                        "name": "sentimiento_global_negativo",
+                        "value": 0.5666032433509827,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_neutro": {
+                        "name": "sentimiento_global_neutro",
+                        "value": 0.4075116515159607,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_positivo": {
+                        "name": "sentimiento_global_positivo",
+                        "value": 0.025885123759508133,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    }
+                },
+                "adjectives": {
+                    "perc_adjectives": {
+                        "name": "perc_adjectives",
+                        "value": 0.22075055187637968,
+                        "reference": 7.000000000000001,
+                        "full_name": "Porcentaje de adjetivos en el texto"
+                    },
+                    "num_adjectives": {
+                        "name": "num_adjectives",
+                        "value": 2,
+                        "reference": null,
+                        "full_name": "Cantidad de adjetivos en el texto"
+                    }
+                },
+                "sources": {
+                    "num_afirmaciones": {
+                        "name": "num_afirmaciones",
+                        "value": 6,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas identificadas"
+                    },
+                    "num_afirmaciones_explicitas": {
+                        "name": "num_afirmaciones_explicitas",
+                        "value": 6,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas explícitas"
+                    },
+                    "num_referenciados": {
+                        "name": "num_referenciados",
+                        "value": 0,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados"
+                    },
+                    "num_referenciados_unique": {
+                        "name": "num_referenciados_unique",
+                        "value": 0,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados Únicos"
+                    },
+                    "num_conectores": {
+                        "name": "num_conectores",
+                        "value": 6,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores"
+                    },
+                    "num_conectores_unique": {
+                        "name": "num_conectores_unique",
+                        "value": 6,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores Únicos"
+                    }
+                }
             }
         },
         "manual_annotations": {
@@ -11531,8 +12047,7 @@
                         "start_char": 1780,
                         "end_char": 1786
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "entities_sentiment": {
                 "stanza": {
@@ -11615,8 +12130,7 @@
                         2
                     ]
                 },
-                "spacy": [],
-                "pysentimiento": null
+                "spacy": []
             },
             "sentiment": {
                 "pysentimiento": {
@@ -11997,8 +12511,7 @@
                             "VerbForm": "Part"
                         }
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "sources": {
                 "stanza": [
@@ -12075,8 +12588,7 @@
                         }
                     }
                 ],
-                "spacy": null,
-                "pysentimiento": null
+                "spacy": null
             },
             "json": {
                 "entities": {
@@ -12738,44 +13250,220 @@
                 ],
                 "metrics": {
                     "general": {
+                        "num_chars": {
+                            "name": "num_chars",
+                            "value": 1881,
+                            "reference": 1000,
+                            "full_name": "Cantidad de caracteres del cuerpo"
+                        },
+                        "num_chars_title": {
+                            "name": "num_chars_title",
+                            "value": 90,
+                            "reference": 30,
+                            "full_name": "Cantidad de caracteres del título"
+                        },
                         "num_words": {
                             "name": "num_words",
                             "value": 374,
-                            "reference": null,
+                            "reference": 500,
                             "full_name": "Cantidad de palabras"
                         },
                         "num_sentences": {
                             "name": "num_sentences",
                             "value": 11,
-                            "reference": null,
+                            "reference": 30,
                             "full_name": "Cantidad de oraciones"
                         }
                     },
-                    "entities": {},
-                    "sentiment": {},
-                    "adjectives": {},
-                    "sources": {}
+                    "entities": {
+                        "cantidad_de_entidades": {
+                            "name": "cantidad_de_entidades",
+                            "value": 28,
+                            "reference": 2,
+                            "full_name": "Cantidad de entidades identificadas"
+                        }
+                    },
+                    "sentiment": {
+                        "sentimiento_global_negativo": {
+                            "name": "sentimiento_global_negativo",
+                            "value": 0.950954794883728,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_neutro": {
+                            "name": "sentimiento_global_neutro",
+                            "value": 0.043933380395174026,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_positivo": {
+                            "name": "sentimiento_global_positivo",
+                            "value": 0.005111848935484886,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        }
+                    },
+                    "adjectives": {
+                        "perc_adjectives": {
+                            "name": "perc_adjectives",
+                            "value": 0.53475935828877,
+                            "reference": 7.000000000000001,
+                            "full_name": "Porcentaje de adjetivos en el texto"
+                        },
+                        "num_adjectives": {
+                            "name": "num_adjectives",
+                            "value": 2,
+                            "reference": null,
+                            "full_name": "Cantidad de adjetivos en el texto"
+                        }
+                    },
+                    "sources": {
+                        "num_afirmaciones": {
+                            "name": "num_afirmaciones",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas identificadas"
+                        },
+                        "num_afirmaciones_explicitas": {
+                            "name": "num_afirmaciones_explicitas",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas explícitas"
+                        },
+                        "num_referenciados": {
+                            "name": "num_referenciados",
+                            "value": 1,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados"
+                        },
+                        "num_referenciados_unique": {
+                            "name": "num_referenciados_unique",
+                            "value": 1,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados Únicos"
+                        },
+                        "num_conectores": {
+                            "name": "num_conectores",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores"
+                        },
+                        "num_conectores_unique": {
+                            "name": "num_conectores_unique",
+                            "value": 3,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores Únicos"
+                        }
+                    }
                 }
             },
             "metrics": {
                 "general": {
+                    "num_chars": {
+                        "name": "num_chars",
+                        "value": 1881,
+                        "reference": 1000,
+                        "full_name": "Cantidad de caracteres del cuerpo"
+                    },
+                    "num_chars_title": {
+                        "name": "num_chars_title",
+                        "value": 90,
+                        "reference": 30,
+                        "full_name": "Cantidad de caracteres del título"
+                    },
                     "num_words": {
                         "name": "num_words",
                         "value": 374,
-                        "reference": null,
+                        "reference": 500,
                         "full_name": "Cantidad de palabras"
                     },
                     "num_sentences": {
                         "name": "num_sentences",
                         "value": 11,
-                        "reference": null,
+                        "reference": 30,
                         "full_name": "Cantidad de oraciones"
                     }
                 },
-                "entities": {},
-                "sentiment": {},
-                "adjectives": {},
-                "sources": {}
+                "entities": {
+                    "cantidad_de_entidades": {
+                        "name": "cantidad_de_entidades",
+                        "value": 28,
+                        "reference": 2,
+                        "full_name": "Cantidad de entidades identificadas"
+                    }
+                },
+                "sentiment": {
+                    "sentimiento_global_negativo": {
+                        "name": "sentimiento_global_negativo",
+                        "value": 0.950954794883728,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_neutro": {
+                        "name": "sentimiento_global_neutro",
+                        "value": 0.043933380395174026,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_positivo": {
+                        "name": "sentimiento_global_positivo",
+                        "value": 0.005111848935484886,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    }
+                },
+                "adjectives": {
+                    "perc_adjectives": {
+                        "name": "perc_adjectives",
+                        "value": 0.53475935828877,
+                        "reference": 7.000000000000001,
+                        "full_name": "Porcentaje de adjetivos en el texto"
+                    },
+                    "num_adjectives": {
+                        "name": "num_adjectives",
+                        "value": 2,
+                        "reference": null,
+                        "full_name": "Cantidad de adjetivos en el texto"
+                    }
+                },
+                "sources": {
+                    "num_afirmaciones": {
+                        "name": "num_afirmaciones",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas identificadas"
+                    },
+                    "num_afirmaciones_explicitas": {
+                        "name": "num_afirmaciones_explicitas",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas explícitas"
+                    },
+                    "num_referenciados": {
+                        "name": "num_referenciados",
+                        "value": 1,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados"
+                    },
+                    "num_referenciados_unique": {
+                        "name": "num_referenciados_unique",
+                        "value": 1,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados Únicos"
+                    },
+                    "num_conectores": {
+                        "name": "num_conectores",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores"
+                    },
+                    "num_conectores_unique": {
+                        "name": "num_conectores_unique",
+                        "value": 3,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores Únicos"
+                    }
+                }
             }
         },
         "manual_annotations": {
@@ -13335,8 +14023,7 @@
                         "start_char": 2832,
                         "end_char": 2835
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "entities_sentiment": {
                 "stanza": {
@@ -13399,8 +14086,7 @@
                         0
                     ]
                 },
-                "spacy": [],
-                "pysentimiento": null
+                "spacy": []
             },
             "sentiment": {
                 "pysentimiento": {
@@ -14069,8 +14755,7 @@
                             "Number": "Sing"
                         }
                     }
-                ],
-                "pysentimiento": null
+                ]
             },
             "sources": {
                 "stanza": [
@@ -14241,8 +14926,7 @@
                         }
                     }
                 ],
-                "spacy": null,
-                "pysentimiento": null
+                "spacy": null
             },
             "json": {
                 "entities": {
@@ -15012,44 +15696,220 @@
                 ],
                 "metrics": {
                     "general": {
+                        "num_chars": {
+                            "name": "num_chars",
+                            "value": 3074,
+                            "reference": 1000,
+                            "full_name": "Cantidad de caracteres del cuerpo"
+                        },
+                        "num_chars_title": {
+                            "name": "num_chars_title",
+                            "value": 92,
+                            "reference": 30,
+                            "full_name": "Cantidad de caracteres del título"
+                        },
                         "num_words": {
                             "name": "num_words",
                             "value": 567,
-                            "reference": null,
+                            "reference": 500,
                             "full_name": "Cantidad de palabras"
                         },
                         "num_sentences": {
                             "name": "num_sentences",
                             "value": 22,
-                            "reference": null,
+                            "reference": 30,
                             "full_name": "Cantidad de oraciones"
                         }
                     },
-                    "entities": {},
-                    "sentiment": {},
-                    "adjectives": {},
-                    "sources": {}
+                    "entities": {
+                        "cantidad_de_entidades": {
+                            "name": "cantidad_de_entidades",
+                            "value": 24,
+                            "reference": 2,
+                            "full_name": "Cantidad de entidades identificadas"
+                        }
+                    },
+                    "sentiment": {
+                        "sentimiento_global_negativo": {
+                            "name": "sentimiento_global_negativo",
+                            "value": 0.5731683969497681,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_neutro": {
+                            "name": "sentimiento_global_neutro",
+                            "value": 0.37777143716812134,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        },
+                        "sentimiento_global_positivo": {
+                            "name": "sentimiento_global_positivo",
+                            "value": 0.04906017705798149,
+                            "reference": 0.33,
+                            "full_name": "Sentimiento global positivo"
+                        }
+                    },
+                    "adjectives": {
+                        "perc_adjectives": {
+                            "name": "perc_adjectives",
+                            "value": 0.3527336860670194,
+                            "reference": 7.000000000000001,
+                            "full_name": "Porcentaje de adjetivos en el texto"
+                        },
+                        "num_adjectives": {
+                            "name": "num_adjectives",
+                            "value": 2,
+                            "reference": null,
+                            "full_name": "Cantidad de adjetivos en el texto"
+                        }
+                    },
+                    "sources": {
+                        "num_afirmaciones": {
+                            "name": "num_afirmaciones",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas identificadas"
+                        },
+                        "num_afirmaciones_explicitas": {
+                            "name": "num_afirmaciones_explicitas",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de citas explícitas"
+                        },
+                        "num_referenciados": {
+                            "name": "num_referenciados",
+                            "value": 2,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados"
+                        },
+                        "num_referenciados_unique": {
+                            "name": "num_referenciados_unique",
+                            "value": 2,
+                            "reference": 2,
+                            "full_name": "Cantidad de Referenciados Únicos"
+                        },
+                        "num_conectores": {
+                            "name": "num_conectores",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores"
+                        },
+                        "num_conectores_unique": {
+                            "name": "num_conectores_unique",
+                            "value": 7,
+                            "reference": 2,
+                            "full_name": "Cantidad de Conectores Únicos"
+                        }
+                    }
                 }
             },
             "metrics": {
                 "general": {
+                    "num_chars": {
+                        "name": "num_chars",
+                        "value": 3074,
+                        "reference": 1000,
+                        "full_name": "Cantidad de caracteres del cuerpo"
+                    },
+                    "num_chars_title": {
+                        "name": "num_chars_title",
+                        "value": 92,
+                        "reference": 30,
+                        "full_name": "Cantidad de caracteres del título"
+                    },
                     "num_words": {
                         "name": "num_words",
                         "value": 567,
-                        "reference": null,
+                        "reference": 500,
                         "full_name": "Cantidad de palabras"
                     },
                     "num_sentences": {
                         "name": "num_sentences",
                         "value": 22,
-                        "reference": null,
+                        "reference": 30,
                         "full_name": "Cantidad de oraciones"
                     }
                 },
-                "entities": {},
-                "sentiment": {},
-                "adjectives": {},
-                "sources": {}
+                "entities": {
+                    "cantidad_de_entidades": {
+                        "name": "cantidad_de_entidades",
+                        "value": 24,
+                        "reference": 2,
+                        "full_name": "Cantidad de entidades identificadas"
+                    }
+                },
+                "sentiment": {
+                    "sentimiento_global_negativo": {
+                        "name": "sentimiento_global_negativo",
+                        "value": 0.5731683969497681,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_neutro": {
+                        "name": "sentimiento_global_neutro",
+                        "value": 0.37777143716812134,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    },
+                    "sentimiento_global_positivo": {
+                        "name": "sentimiento_global_positivo",
+                        "value": 0.04906017705798149,
+                        "reference": 0.33,
+                        "full_name": "Sentimiento global positivo"
+                    }
+                },
+                "adjectives": {
+                    "perc_adjectives": {
+                        "name": "perc_adjectives",
+                        "value": 0.3527336860670194,
+                        "reference": 7.000000000000001,
+                        "full_name": "Porcentaje de adjetivos en el texto"
+                    },
+                    "num_adjectives": {
+                        "name": "num_adjectives",
+                        "value": 2,
+                        "reference": null,
+                        "full_name": "Cantidad de adjetivos en el texto"
+                    }
+                },
+                "sources": {
+                    "num_afirmaciones": {
+                        "name": "num_afirmaciones",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas identificadas"
+                    },
+                    "num_afirmaciones_explicitas": {
+                        "name": "num_afirmaciones_explicitas",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de citas explícitas"
+                    },
+                    "num_referenciados": {
+                        "name": "num_referenciados",
+                        "value": 2,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados"
+                    },
+                    "num_referenciados_unique": {
+                        "name": "num_referenciados_unique",
+                        "value": 2,
+                        "reference": 2,
+                        "full_name": "Cantidad de Referenciados Únicos"
+                    },
+                    "num_conectores": {
+                        "name": "num_conectores",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores"
+                    },
+                    "num_conectores_unique": {
+                        "name": "num_conectores_unique",
+                        "value": 7,
+                        "reference": 2,
+                        "full_name": "Cantidad de Conectores Únicos"
+                    }
+                }
             }
         },
         "manual_annotations": {
