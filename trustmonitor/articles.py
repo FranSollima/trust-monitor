@@ -20,23 +20,23 @@ import warnings
 class NLPAnnotations():
     
     def __init__(self):
-        self.doc = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.entities = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.entities_sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.sentiment = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.adjectives = dict(stanza=None, spacy=None, pysentimiento=None)
-        self.sources = dict(stanza=None, spacy=None, pysentimiento=None)
+        self.doc = dict()
+        self.entities = dict()
+        self.entities_sentiment = dict()
+        self.sentiment = dict()
+        self.adjectives = dict()
+        self.sources = dict()
         self.json = None
         self.metrics = dict(general=dict(), entities=dict(), sentiment=dict(), adjectives=dict(), sources=dict())
         
     def summary(self):
         print("NLP Annotations Summary:")
-        print(f"Entities analyzed by: {[k for k, v in self.entities.items() if v is not None]}")
-        print(f"Entities Sentiment analyzed by: {[k for k, v in self.entities_sentiment.items() if v is not None]}")
-        print(f"General Sentiment analyzed by: {[k for k, v in self.sentiment.items() if v is not None]}")
-        print(f"Adjectives analyzed by: {[k for k, v in self.adjectives.items() if v is not None]}")
-        print(f"Sources analyzed by: {[k for k, v in self.sources.items() if v is not None]}")
-        print(f"Metrics: {[k for k, v in self.metrics.items() if v is not None]}")
+        print(f"Entities analyzed by: {[k for k, v in self.entities.items()]}")
+        print(f"Entities Sentiment analyzed by: {[k for k, v in self.entities_sentiment.items()]}")
+        print(f"General Sentiment analyzed by: {[k for k, v in self.sentiment.items()]}")
+        print(f"Adjectives analyzed by: {[k for k, v in self.adjectives.items()]}")
+        print(f"Sources analyzed by: {[k for k, v in self.sources.items()]}")
+        print(f"Metrics: {[k for k, v in self.metrics.items()]}")
         
     def __repr__(self):
         self.summary()
@@ -363,10 +363,20 @@ class ArticlesCorpus():
             pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
     def from_dict(self, corpus_dict: dict):
-        self.articles = {int(index): Article(article) for index, article in corpus_dict.items()}
-        self.n_articles = len(self.articles)
-        self._get_articles_catalog()
-        return self
+        # self.articles = {int(index): Article(article) for index, article in corpus_dict.items()}
+        # self.n_articles = len(self.articles)
+        # self._get_articles_catalog()
+        # self._add_metrics_to_catalog()
+        
+        # return self
+        
+        corpus = ArticlesCorpus()
+        corpus.articles = {int(index): Article(article) for index, article in corpus_dict.items()}
+        corpus.n_articles = len(corpus.articles)
+        corpus._get_articles_catalog()
+        corpus._add_metrics_to_catalog()
+        
+        return corpus
         
     def from_json(self, filename: str):
         with open(filename, 'r', encoding="utf8") as f:
@@ -418,6 +428,23 @@ class ArticlesCorpus():
               )
          
         self.catalog = df
+        
+    def _add_metrics_to_catalog(self):
+        
+        metrics_df = {}
+        
+        for article in self.get_articles():
+
+            metrics_df[article.index] = {} 
+            metrics = [d for x in article.nlp_annotations.metrics.values() for d in x.values()]
+
+            for metric in metrics:
+                metrics_df[article.index][metric['name']] = metric['value']
+                
+        
+        metrics_df = pd.DataFrame.from_dict(metrics_df, orient="index")
+        repeated_cols = [c for c in self.get_catalog().columns if c in metrics_df.columns]
+        self.catalog = self.get_catalog().merge(metrics_df.drop(columns=repeated_cols), left_on="index_article", right_index=True, how="left")
         
     def reset_index(self):
         self.articles = {i:article for i, article in enumerate(self.get_articles())}
