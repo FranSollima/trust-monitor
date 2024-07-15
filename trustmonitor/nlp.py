@@ -379,9 +379,6 @@ class NLP:
 
             if 'stanza' in article.nlp_annotations.adjectives:
                 article.add_metric(category='adjectives', key='num_adjectives', value=len(article.nlp_annotations.adjectives['stanza']), reference=None, full_name='Cantidad de adjetivos en el texto')
-            
-            if 'stanza' in article.nlp_annotations.entities:
-                article.add_metric(category='entities',key='cantidad_de_entidades', value= len(article.nlp_annotations.entities['stanza']),reference=2, full_name='Cantidad de entidades identificadas')
 
             if 'stanza' in article.nlp_annotations.sources:
                 article.add_metric(category='sources',key='num_afirmaciones', value= len(article.nlp_annotations.sources['stanza']), reference=2, full_name='Cantidad de citas identificadas')    
