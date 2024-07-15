@@ -371,10 +371,14 @@ class NLP:
             # todo add more metrics. 
             
             if 'stanza' in article.nlp_annotations.entities:
-                pass
+                article.add_metric(category='entities', key='num_entidades', value=len(article.nlp_annotations.entities['stanza']), reference=None, full_name='Cantidad de entidades en el texto')
+                article.add_metric(category='entities', key='num_entidades_persona', value=len([e for e in article.nlp_annotations.entities["stanza"] if e["type"] == "Persona"]), reference=None, full_name='Cantidad de entidades Persona en el texto')
+                article.add_metric(category='entities', key='num_entidades_organizacion', value=len([e for e in article.nlp_annotations.entities["stanza"] if e["type"] == "Organización"]), reference=None, full_name='Cantidad de entidades Organización en el texto')
+                article.add_metric(category='entities', key='num_entidades_lugar', value=len([e for e in article.nlp_annotations.entities["stanza"] if e["type"] == "Lugar"]), reference=None, full_name='Cantidad de entidades Lugar en el texto')
+                article.add_metric(category='entities', key='num_entidades_misc', value=len([e for e in article.nlp_annotations.entities["stanza"] if e["type"] == "Misceláneo"]), reference=None, full_name='Cantidad de entidades Misceláneo en el texto')
 
             if 'stanza' in article.nlp_annotations.adjectives:
-                article.add_metric(category='adjectives', key='num_adjectives', value=len(article.nlp_annotations.adjectives), reference=None, full_name='Cantidad de adjetivos en el texto')
+                article.add_metric(category='adjectives', key='num_adjectives', value=len(article.nlp_annotations.adjectives['stanza']), reference=None, full_name='Cantidad de adjetivos en el texto')
             
             if 'stanza' in article.nlp_annotations.entities:
                 article.add_metric(category='entities',key='cantidad_de_entidades', value= len(article.nlp_annotations.entities['stanza']),reference=2, full_name='Cantidad de entidades identificadas')
