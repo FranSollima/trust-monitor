@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 # Initialize the NLP model
 nlp = NLP(language="es", libreria="pysentimiento")
+nlp_spacy = NLP(language="es", libreria="spacy")
+nlp_stanza = NLP(language="es", libreria="stanza")
 
 @app.route('/process', methods=['POST'])
 def process_corpus():
@@ -22,7 +24,11 @@ def process_corpus():
         corpus.load_articles(data)
 
         # Annotate the corpus
-        nlp._annotate_corpus(corpus)
+        nlp._extract_corpus_sentiment(corpus)
+        nlp_spacy.analyze_corpus_cuerpo(corpus)
+        nlp_stanza.analyze_corpus_cuerpo(corpus)
+
+        nlp.calculate_corpus_metrics(corpus)
 
         corpus_out = corpus.to_dict(include_annotations = True)
 
