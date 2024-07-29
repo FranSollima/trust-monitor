@@ -29,6 +29,7 @@ def process_corpus():
         nlp_stanza.analyze_corpus_cuerpo(corpus)
 
         nlp.calculate_corpus_metrics(corpus)
+        nlp._build_frontend_json(corpus)
 
         corpus_out = corpus.to_dict(include_annotations = True)
 
