@@ -33,7 +33,7 @@ def process_corpus():
 
         corpus_out = corpus.to_dict(include_annotations = True)
 
-        response = corpus_out
+        response = [corpus_out[i]['nlp_annotations']['json'] for i in corpus_out]
 
         return jsonify(response), 200
 
