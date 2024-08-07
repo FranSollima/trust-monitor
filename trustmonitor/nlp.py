@@ -8,6 +8,8 @@ from .matcher import SourceMatcher
 import json
 import pandas as pd
 
+MIN_SENT_LENGHT = 10
+
 class NLP:
     ### GENERALES ###
     def __init__(self, language, libreria):
@@ -301,7 +303,6 @@ class NLP:
                 'sentences': []
             }
 
-
             sentences = article.cuerpo.split('.')
             for sentence in sentences:
                 analysis_result = self.pysentimiento.predict(sentence)
@@ -312,6 +313,13 @@ class NLP:
                     'start_char': article.cuerpo.find(sentence),
                     'end_char': article.cuerpo.find(sentence) + len(sentence)
                 })
+
+            title_analysis_result = self.pysentimiento.predict(article.titulo)
+            article.nlp_annotations.sentiment['pysentimiento']['titulo'] = {
+                'label': title_analysis_result.output,
+                'scores': title_analysis_result.probas
+
+            }
 
     #stanza and spacy for both
     def analyze_corpus_cuerpo(self, corpus):
@@ -512,15 +520,20 @@ class NLP:
                 'NEU': {'score': 0.0, 'start_char': 0, 'end_char': 0, 'sentence': ''}
             }
             for label in highest_scoring_sentence_per_label:
+                #print(sentiment['sentences'])
                 for sentence in sentiment['sentences']:
-                    if sentence['label'] == label and sentence['scores'][label] > highest_scoring_sentence_per_label[label]['score']:
-                        highest_scoring_sentence_per_label[label]['score'] = sentence['scores'][label]
-                        highest_scoring_sentence_per_label[label]['start_char'] = sentence['start_char']
-                        highest_scoring_sentence_per_label[label]['end_char'] = sentence['end_char']
-                        highest_scoring_sentence_per_label[label]['sentence'] = sentence['sentence']
-                article.nlp_annotations.json['sentiment'] = {
+                    #if len(sentence['sentence']) > MIN_SENT_LENGHT:   
+                        if sentence['label'] == label and sentence['scores'][label] > highest_scoring_sentence_per_label[label]['score']:
+                            highest_scoring_sentence_per_label[label]['score'] = sentence['scores'][label]
+                            highest_scoring_sentence_per_label[label]['start_char'] = sentence['start_char']
+                            highest_scoring_sentence_per_label[label]['end_char'] = sentence['end_char']
+                            highest_scoring_sentence_per_label[label]['sentence'] = sentence['sentence']
+                
+
+            article.nlp_annotations.json['sentiment'] = {
                     'global_sentiment': global_sentiment,
-                    'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label
+                    'highest_scoring_sentence_per_label': highest_scoring_sentence_per_label,
+                    'title_sentiment': sentiment['titulo']
                 }
 
             article.nlp_annotations.json['sources'] = article.nlp_annotations.sources["stanza"]
